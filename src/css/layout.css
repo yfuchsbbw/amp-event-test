@@ -1,0 +1,61 @@
+.layout {
+    @apply flex min-h-screen;
+}
+
+#page {
+    @apply relative min-h-screen overflow-hidden bg-[#c69c6d];
+}
+
+#page > :not(#main-content-container) {
+    @apply relative z-10;
+}
+
+.video-background {
+    @apply flex;
+}
+
+.video-background::before {
+    content: "";
+    @apply pointer-events-none fixed inset-0 z-0 bg-[#c69c6d];
+}
+
+#background-gabrielle {
+    @apply pointer-events-none fixed inset-0 z-0 overflow-hidden;
+}
+
+.video-background video {
+    @apply fixed left-0 top-0 h-screen w-screen object-cover object-center;
+    transition: opacity 0.75s;
+    filter: none;
+    mix-blend-mode: normal;
+}
+
+#background-video {
+    @apply block;
+}
+
+#background-video-mobile {
+    @apply hidden;
+}
+
+@media (max-width: 768px) {
+    .video-background {
+        padding: 0 !important;
+    }
+
+    .video-background video {
+        @apply object-center;
+    }
+
+    #background-video {
+        @apply hidden;
+    }
+
+    #background-video-mobile {
+        @apply block;
+    }
+
+    .hide #background-video-mobile {
+        @apply hidden;
+    }
+}

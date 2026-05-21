@@ -1,0 +1,186 @@
+.site-header {
+    @apply fixed left-0 top-0 z-30 flex w-full items-start justify-between px-10 py-7 text-[#25232b];
+}
+
+.amp-logo {
+    @apply block w-[275px] max-w-[18vw];
+}
+
+.main-logo {
+    @apply relative z-20 w-full;
+}
+
+.main-logo svg {
+    @apply h-auto w-full;
+}
+
+#logo-animated svg {
+    transform: none !important;
+}
+
+.navigation {
+    @apply flex list-none gap-3 p-0 m-0;
+}
+
+.nav-item {
+    @apply block rounded-full bg-[#25232b] px-7 py-2 text-[19px] font-bold leading-none text-white transition-colors hover:bg-black;
+}
+
+.amp-home {
+    @apply relative z-10 min-h-screen text-[#25232b];
+}
+
+.amp-home__left {
+    @apply min-h-screen;
+}
+
+.amp-home__headline {
+    @apply absolute left-10 top-[245px] max-w-[700px] text-[82px] font-normal leading-[0.98] tracking-[-0.055em];
+}
+
+.amp-home__info {
+    @apply contents;
+}
+
+.amp-home__venue {
+    @apply absolute left-10 top-[620px] text-[43px] font-normal leading-[1.08] tracking-[-0.055em];
+}
+
+.amp-home__copy {
+    @apply absolute left-[370px] top-[635px] max-w-[420px] space-y-5 text-[18px] font-normal leading-[1.28] tracking-[-0.015em];
+}
+
+.amp-home__copy .link {
+    @apply underline underline-offset-2;
+}
+
+.amp-home__presented {
+    @apply absolute bottom-8 left-10 flex flex-col items-start gap-2 text-[8px] font-bold;
+}
+
+.amp-home__presented img {
+    @apply h-auto w-[140px];
+}
+
+.amp-home__right {
+    @apply min-h-screen;
+}
+
+.amp-home__date {
+    @apply absolute bottom-[210px] right-[375px];
+}
+
+.amp-home__date p {
+    @apply mb-1 text-[15px] leading-none tracking-[-0.015em];
+}
+
+.amp-home__date h2 {
+    @apply text-[86px] font-normal leading-[0.98] tracking-[-0.055em];
+}
+
+.amp-home__cta {
+    @apply absolute bottom-8 right-10 grid w-[320px] grid-cols-[1fr_auto] gap-y-3 rounded bg-[#ffcc2a] px-4 py-3 text-black shadow-sm;
+}
+
+.amp-home__cta span:first-child {
+    @apply col-span-2 text-[11px] font-bold leading-none;
+}
+
+.amp-home__cta strong {
+    @apply text-[20px] font-normal leading-[1.08];
+}
+
+.amp-home__cta span:last-child {
+    @apply self-end text-[28px] leading-none;
+}
+
+#speaker-list {
+    @apply w-[35%] border-r border-white/30 bg-white/80;
+}
+
+.speaker-card {
+    @apply block cursor-pointer p-4 transition-colors;
+}
+
+.speaker-card:hover {
+    @apply bg-white/70;
+}
+
+.speaker-card.active,
+.speaker-card.is-active {
+    @apply bg-white text-black;
+}
+
+#speaker-detail {
+    @apply flex-1 bg-white/80 p-6;
+}
+
+.speaker-detail {
+    @apply max-w-3xl;
+}
+
+.speaker-detail .talker-img {
+    @apply mb-6 max-h-[60vh] w-auto object-contain;
+}
+
+.speaker-detail h1 {
+    @apply mb-2 text-4xl font-normal leading-none;
+}
+
+.speaker-detail h3 {
+    @apply mb-4 text-xl font-normal;
+}
+
+.speaker-detail p {
+    @apply max-w-2xl text-base leading-relaxed;
+}
+
+@media (max-width: 1024px) {
+    .site-header {
+        @apply px-5 py-5;
+    }
+
+    .amp-logo__word {
+        @apply text-[76px];
+    }
+
+    .navigation {
+        @apply hidden;
+    }
+
+    .amp-home {
+        @apply block px-5 pb-8 pt-32;
+    }
+
+    .amp-home__left {
+        @apply min-h-[70vh] px-0 pb-0 pt-0;
+    }
+
+    .amp-home__headline {
+        @apply text-[56px];
+    }
+
+    .amp-home__info {
+        @apply mt-16 block;
+    }
+
+    .amp-home__venue {
+        @apply mb-8 text-[44px];
+    }
+
+    .amp-home__right {
+        @apply min-h-[45vh];
+    }
+
+    .amp-home__date {
+        @apply static mt-12 translate-y-0;
+    }
+
+    .amp-home__date h2 {
+        @apply text-[58px];
+    }
+
+    .amp-home__cta {
+        @apply static mt-10 w-full;
+    }
+}

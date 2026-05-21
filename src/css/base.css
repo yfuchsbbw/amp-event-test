@@ -1,0 +1,54 @@
+@import "tailwindcss";
+
+@font-face {
+    font-family: "Helvetica Neue LT Pro";
+    src: url("/fonts/HelveticaNeueLTW02-55Roman.woff2") format("woff2");
+    font-style: normal;
+    font-weight: 400;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: "Helvetica Neue LT Pro";
+    src: url("/fonts/HelveticaNeueLTW01-65Medium.woff2") format("woff2");
+    font-style: normal;
+    font-weight: 500;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: "Helvetica Neue LT Pro";
+    src: url("/fonts/HelveticaNeueLTW01-75Bold.woff2") format("woff2");
+    font-style: normal;
+    font-weight: 700;
+    font-display: swap;
+}
+
+@layer base {
+    html {
+        @apply scroll-smooth;
+    }
+
+    body {
+        @apply m-0 min-h-screen bg-[#c69c6d] text-[#25232b];
+        font-family: "Helvetica Neue LT Pro", Arial, sans-serif;
+    }
+
+    *,
+    *::before,
+    *::after {
+        box-sizing: border-box;
+    }
+
+    img,
+    picture,
+    video,
+    canvas,
+    svg {
+        @apply block max-w-full;
+    }
+
+    a {
+        @apply text-inherit no-underline;
+    }
+}
