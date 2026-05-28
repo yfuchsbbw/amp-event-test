@@ -1,9 +1,121 @@
 [
   {
+    "id": "andrea-amstutz",
+    "name": "Andrea Amstutz",
+    "role": "Speaker",
+    "image": "andrea_amstutz.png",
+    "excerpt": "Weitere Informationen folgen."
+  },
+  {
+    "id": "barbara-bleisch",
+    "name": "Barbara Bleisch",
+    "role": "Speaker",
+    "image": "Barbara_Bleisch.png",
+    "excerpt": "Weitere Informationen folgen."
+  },
+  {
+    "id": "eveline-von-arx",
+    "name": "Eveline von Arx",
+    "role": "Speaker",
+    "image": "Eveline_von_Arx.png",
+    "excerpt": "Weitere Informationen folgen."
+  },
+  {
+    "id": "gabrielle",
+    "name": "Gabrielle",
+    "role": "Speaker",
+    "image": "Gabrielle.png",
+    "excerpt": "Weitere Informationen folgen."
+  },
+  {
+    "id": "kupferschmid",
+    "name": "Kupferschmid",
+    "role": "Speaker",
+    "image": "Kupferschmid.png",
+    "excerpt": "Weitere Informationen folgen."
+  },
+  {
+    "id": "marcel-keller",
+    "name": "Marcel Keller",
+    "role": "Speaker",
+    "image": "Marcel_Keller.png",
+    "excerpt": "Weitere Informationen folgen."
+  },
+  {
+    "id": "nora-dietrich",
+    "name": "Nora Dietrich",
+    "role": "Speaker",
+    "image": "Nora_Dietrich.png",
+    "excerpt": "Weitere Informationen folgen."
+  },
+  {
+    "id": "patrick-rohr",
+    "name": "Patrick Rohr",
+    "role": "Speaker",
+    "image": "Patrick_Rohr.png",
+    "excerpt": "Weitere Informationen folgen."
+  },
+  {
+    "id": "rahel-haefele",
+    "name": "Rahel Haefele",
+    "role": "Speaker",
+    "image": "Rahel_Haefele.png",
+    "excerpt": "Weitere Informationen folgen."
+  },
+  {
+    "id": "azem-maksutaj",
+    "name": "Azem Maksutaj",
+    "role": "Speaker",
+    "image": "Speaker-AzemMaksutaj.png",
+    "excerpt": "Weitere Informationen folgen."
+  },
+  {
+    "id": "david-nauer",
+    "name": "David Nauer",
+    "role": "Speaker",
+    "image": "Speaker-DavidNauer.jpg",
+    "excerpt": "Weitere Informationen folgen."
+  },
+  {
     "id": "francis-cheneval",
     "name": "Prof. Dr. Francis Cheneval",
     "role": "Philosoph",
-    "image": "Speaker-FrancisCheneval.png",
-    "excerpt": "Philosoph und Politikwissenschaftler..."
+    "image": "Speaker-FrancisCheneval.jpg",
+    "excerpt": "Philosoph und Politikwissenschaftler."
+  },
+  {
+    "id": "gregor-berger",
+    "name": "Gregor Berger",
+    "role": "Speaker",
+    "image": "Speaker-GregorBerger.png",
+    "excerpt": "Weitere Informationen folgen."
+  },
+  {
+    "id": "naomi-lareine",
+    "name": "Naomi Lareine",
+    "role": "Speaker",
+    "image": "Speaker-NaomiLareine.png",
+    "excerpt": "Weitere Informationen folgen."
+  },
+  {
+    "id": "niels-hintermann",
+    "name": "Niels Hintermann",
+    "role": "Speaker",
+    "image": "Speaker-NielsHintermann.png",
+    "excerpt": "Weitere Informationen folgen."
+  },
+  {
+    "id": "peter-steiger",
+    "name": "Peter Steiger",
+    "role": "Speaker",
+    "image": "Speaker-PeterSteiger.png",
+    "excerpt": "Weitere Informationen folgen."
+  },
+  {
+    "id": "philip-bosshard",
+    "name": "Philip Bosshard",
+    "role": "Speaker",
+    "image": "Speaker-PhilipBosshard.png",
+    "excerpt": "Weitere Informationen folgen."
   }
 ]

@@ -1,17 +1,18 @@
 .site-header {
-    @apply fixed left-0 top-0 z-30 flex w-full items-start justify-between px-10 py-7 text-[#25232b];
+    @apply fixed left-0 top-0 z-30 flex w-full items-start justify-between px-10 py-10 text-[#25232b];
 }
 
 .amp-logo {
-    @apply block w-[275px] max-w-[18vw];
+    @apply block w-[335.13px] max-w-[22vw] overflow-hidden;
+    aspect-ratio: 335.13 / 95.74;
 }
 
 .main-logo {
-    @apply relative z-20 w-full;
+    @apply relative z-20 h-full w-full;
 }
 
 .main-logo svg {
-    @apply h-auto w-full;
+    @apply h-full w-full;
 }
 
 #logo-animated svg {
@@ -19,15 +20,42 @@
 }
 
 .navigation {
-    @apply flex list-none gap-3 p-0 m-0;
+    @apply m-0 flex list-none gap-4 p-0 pt-2;
+    font-family: "Helvetica Neue LT Pro", Arial, sans-serif;
 }
 
 .nav-item {
-    @apply block rounded-full bg-[#25232b] px-7 py-2 text-[19px] font-bold leading-none text-white transition-colors hover:bg-black;
+    @apply flex h-[44px] cursor-pointer items-center justify-center rounded-[50px] bg-[#2c272d] px-8 py-2 text-[23.49px] font-normal leading-none text-white transition-all duration-500 ease-in-out hover:bg-white hover:text-black;
+    font-family: "Helvetica Neue LT Pro", Arial, sans-serif;
+}
+
+.nav-item.active {
+    @apply bg-[#2c272d] text-white shadow-none;
+}
+
+.nav-item.active:hover {
+    @apply bg-white text-black;
 }
 
 .amp-home {
     @apply relative z-10 min-h-screen text-[#25232b];
+    font-family: "Helvetica Neue LT Pro", Arial, sans-serif;
+}
+
+.left-bar,
+.right-bar {
+    @apply absolute inset-0 opacity-0 pointer-events-none;
+    font-family: "Helvetica Neue LT Pro", Arial, sans-serif;
+}
+
+.left-bar.show,
+.right-bar.show {
+    @apply opacity-100 pointer-events-auto;
+}
+
+.left-bar:not(.show),
+.right-bar:not(.show) {
+    @apply hidden;
 }
 
 .amp-home__left {
@@ -35,7 +63,7 @@
 }
 
 .amp-home__headline {
-    @apply absolute left-10 top-[245px] max-w-[700px] text-[82px] font-normal leading-[0.98] tracking-[-0.055em];
+    @apply absolute left-10 top-[245px] max-w-[1050px] text-[123.38px] font-normal leading-[123.38px] tracking-[-3px];
 }
 
 .amp-home__info {
@@ -43,11 +71,11 @@
 }
 
 .amp-home__venue {
-    @apply absolute left-10 top-[620px] text-[43px] font-normal leading-[1.08] tracking-[-0.055em];
+    @apply absolute left-10 top-[760px] text-[75px] font-normal leading-[82.5px] tracking-[1px];
 }
 
 .amp-home__copy {
-    @apply absolute left-[370px] top-[635px] max-w-[420px] space-y-5 text-[18px] font-normal leading-[1.28] tracking-[-0.015em];
+    @apply absolute left-[440px] top-[788px] max-w-[470px] space-y-5 text-[22px] font-normal leading-[1.28] tracking-[-0.015em];
 }
 
 .amp-home__copy .link {
@@ -55,7 +83,7 @@
 }
 
 .amp-home__presented {
-    @apply absolute bottom-8 left-10 flex flex-col items-start gap-2 text-[8px] font-bold;
+    @apply absolute bottom-12 left-10 flex flex-col items-start gap-2 text-[11px] font-bold;
 }
 
 .amp-home__presented img {
@@ -67,19 +95,19 @@
 }
 
 .amp-home__date {
-    @apply absolute bottom-[210px] right-[375px];
+    @apply absolute bottom-[330px] right-[570px];
 }
 
 .amp-home__date p {
-    @apply mb-1 text-[15px] leading-none tracking-[-0.015em];
+    @apply mb-1 text-[17px] leading-none tracking-[-0.015em];
 }
 
 .amp-home__date h2 {
-    @apply text-[86px] font-normal leading-[0.98] tracking-[-0.055em];
+    @apply text-[124px] font-normal leading-[0.98] tracking-[-0.055em];
 }
 
 .amp-home__cta {
-    @apply absolute bottom-8 right-10 grid w-[320px] grid-cols-[1fr_auto] gap-y-3 rounded bg-[#ffcc2a] px-4 py-3 text-black shadow-sm;
+    @apply absolute bottom-8 right-10 grid w-[360px] grid-cols-[1fr_auto] gap-y-3 rounded bg-[#ffcc2a] px-4 pb-2 pt-3 text-black shadow-sm;
 }
 
 .amp-home__cta span:first-child {
@@ -87,19 +115,31 @@
 }
 
 .amp-home__cta strong {
-    @apply text-[20px] font-normal leading-[1.08];
+    @apply text-[24px] font-normal leading-[1.08];
 }
 
-.amp-home__cta span:last-child {
-    @apply self-end text-[28px] leading-none;
+.amp-home__cta-arrow {
+    @apply self-end justify-self-end translate-x-1 translate-y-1;
+}
+
+.amp-home__cta-arrow svg {
+    @apply h-[34px] w-[34px]; 
+}
+
+.amp-home__cta-arrow path {
+    fill: none;
+    stroke: currentColor;
+    stroke-width: 1.8;
+    stroke-linecap: square;
+    stroke-linejoin: miter;
 }
 
 #speaker-list {
-    @apply w-[35%] border-r border-white/30 bg-white/80;
+    @apply mt-10 grid max-h-[58vh] w-full grid-cols-1 gap-2 overflow-y-auto pr-2;
 }
 
 .speaker-card {
-    @apply block cursor-pointer p-4 transition-colors;
+    @apply block w-full cursor-pointer rounded bg-white/70 p-4 text-left text-[#25232b] transition-colors;
 }
 
 .speaker-card:hover {
@@ -112,7 +152,7 @@
 }
 
 #speaker-detail {
-    @apply flex-1 bg-white/80 p-6;
+    @apply w-full;
 }
 
 .speaker-detail {
@@ -120,7 +160,7 @@
 }
 
 .speaker-detail .talker-img {
-    @apply mb-6 max-h-[60vh] w-auto object-contain;
+    @apply mb-6 max-h-[56vh] w-auto rounded object-contain;
 }
 
 .speaker-detail h1 {
@@ -133,6 +173,100 @@
 
 .speaker-detail p {
     @apply max-w-2xl text-base leading-relaxed;
+}
+
+.amp-panel {
+    @apply z-10 min-h-screen px-10 pb-10 pt-[190px] text-[#25232b];
+    font-family: "Helvetica Neue LT Pro", Arial, sans-serif;
+}
+
+.amp-panel--intro {
+    @apply max-w-[760px];
+}
+
+.amp-panel--intro h1,
+.amp-panel--intro h2,
+.amp-panel--speakers h2 {
+    @apply max-w-[660px] text-[72px] font-normal leading-[0.98] tracking-[-0.04em];
+}
+
+.amp-panel--intro p:not(.amp-panel__eyebrow) {
+    @apply mt-8 max-w-[470px] text-[20px] leading-[1.3];
+}
+
+.amp-panel__eyebrow {
+    @apply mb-5 text-[15px] font-bold uppercase leading-none tracking-normal;
+}
+
+.amp-panel--list,
+.amp-panel--speaker-detail,
+.amp-panel--location {
+    @apply left-auto right-0 w-[48vw] px-10;
+}
+
+.program-list {
+    @apply m-0 grid list-none gap-8 p-0;
+}
+
+.program-item {
+    @apply grid cursor-default grid-cols-[1fr_auto] items-end gap-6 border-b-2 border-black pb-1 text-black;
+}
+
+.program-item time {
+    @apply text-[24px] font-normal leading-none;
+}
+
+.program-item span {
+    @apply text-[24px] font-normal leading-none;
+}
+
+.amp-panel--speakers {
+    @apply max-w-[620px];
+}
+
+.speaker-card .name {
+    @apply block text-[22px] font-normal leading-tight;
+}
+
+.speaker-card .description {
+    @apply mt-1 block text-[14px] leading-none opacity-70;
+}
+
+.amp-panel--location img {
+    @apply h-[68vh] w-full rounded object-cover;
+}
+
+.page-programm #background-gabrielle {
+    @apply opacity-100;
+}
+
+.page-programm .site-header {
+    @apply py-10;
+}
+
+.amp-panel--program-intro {
+    @apply max-w-none pt-[235px];
+}
+
+.amp-panel--program-intro h1,
+.amp-panel--program-intro h2 {
+    @apply max-w-none text-[123.38px] font-normal leading-[123.38px] tracking-[-3px];
+}
+
+.amp-panel--program-list {
+    @apply bottom-[84px] left-auto right-4 top-auto min-h-0 w-[49vw] px-0 pb-0 pt-0;
+}
+
+.amp-panel--program-intro .amp-panel__presented {
+    @apply bottom-12;
+}
+
+.amp-panel--program-intro .amp-panel__presented {
+    @apply text-[11px] gap-3;
+}
+
+.amp-panel--program-intro .amp-panel__presented img {
+    @apply w-[165px];
 }
 
 @media (max-width: 1024px) {

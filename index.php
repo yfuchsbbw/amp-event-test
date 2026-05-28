@@ -5,6 +5,15 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>AMP Event 2026</title>
+    <script>document.documentElement.classList.add('fonts-loading');</script>
+    <style>
+        html.fonts-loading body {
+            visibility: hidden;
+        }
+    </style>
+    <link rel="preload" href="/fonts/HelveticaNeueLTW02-55Roman.woff2" as="font" type="font/woff2" crossorigin>
+    <link rel="preload" href="/fonts/HelveticaNeueLTW01-65Medium.woff2" as="font" type="font/woff2" crossorigin>
+    <link rel="preload" href="/fonts/HelveticaNeueLTW01-75Bold.woff2" as="font" type="font/woff2" crossorigin>
 
     <!-- Optional: Favicon -->
     <link rel="shortcut icon" href="/media/favicon/favicon.png">
@@ -35,8 +44,6 @@
 </head>
 
 <body>
-
-    <!-- OPTIONAL: global wrapper (besser für GSAP & page transitions) -->
     <div id="page">
         <div id="main-content-container" class="container video-background" aria-hidden="true">
             <div id="background-gabrielle">
@@ -48,10 +55,6 @@
                 </video>
             </div>
         </div>
-
-        <!-- DEIN KOMPLETTES AMP LAYOUT KOMMT HIER REIN -->
-        <!-- NICHT in #app einsperren -->
-
         <?php include __DIR__ . '/partials/layout.php'; ?>
 
     </div>

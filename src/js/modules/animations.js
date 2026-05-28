@@ -1,4 +1,5 @@
 import lottie from 'lottie-web';
+import { state } from '../core/state.js';
 
 export function initAnimations() {
     loadLogoAnimations();
@@ -22,12 +23,20 @@ export function loadLogoAnimations() {
 
         container.dataset.logoLoaded = 'true';
 
-        lottie.loadAnimation({
+        const animation = lottie.loadAnimation({
             container,
             renderer: 'svg',
             loop: false,
             autoplay: true,
             path: '/media/json/AMP-26-Logo-Black.json',
+        });
+
+        animation.addEventListener('DOMLoaded', () => {
+            state.logoAnimationLoaded = true;
+        });
+
+        animation.addEventListener('data_failed', () => {
+            state.logoAnimationLoaded = true;
         });
     });
 }

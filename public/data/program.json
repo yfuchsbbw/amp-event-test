@@ -1,0 +1,24 @@
+[
+  {
+    "time": "12:00",
+    "timePrefix": "ab",
+    "title": "Kleiner Imbiss"
+  },
+  {
+    "time": "13:00",
+    "title": "Start der Referate und Beiträge"
+  },
+  {
+    "time": "15:00 - 15:30",
+    "title": "Pause"
+  },
+  {
+    "time": "15:30 - 17:00",
+    "title": "Referate und Podiumsdiskussion"
+  },
+  {
+    "time": "17:00 - 20:00",
+    "timePrefix": "ab",
+    "title": "Apéro Riche"
+  }
+]

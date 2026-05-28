@@ -40,7 +40,44 @@
         <a href="#location" class="amp-home__cta nav-l-location nav-r-location">
             <span>Anreise</span>
             <strong>Zum<br>Veranstaltungsort</strong>
-            <span aria-hidden="true">↗</span>
+            <span class="amp-home__cta-arrow" aria-hidden="true">
+                <svg viewBox="0 0 24 24" focusable="false">
+                    <path d="M7 17 17 7M9 7h8v8" />
+                </svg>
+            </span>
         </a>
+    </section>
+
+    <section id="nav-l-programm" class="left-bar amp-panel amp-panel--intro amp-panel--program-intro">
+        <h1>Programm<br>12. Juni 2026</h1>
+
+        <div class="amp-home__presented amp-panel__presented">
+            <span>präsentiert von</span>
+            <img src="/media/img/sulser_twofold_logo.svg" alt="Sulser & Partner und twofold">
+        </div>
+    </section>
+
+    <section id="nav-r-programm" class="right-bar amp-panel amp-panel--list amp-panel--program-list">
+        <ol id="program-list" class="program-list" aria-label="Programmablauf"></ol>
+    </section>
+
+    <section id="nav-l-speaker" class="left-bar amp-panel amp-panel--speakers">
+        <p class="amp-panel__eyebrow">Speaker</p>
+        <h2>Menschen mit Haltung</h2>
+        <div id="speaker-list" class="speaker-list" aria-label="Speaker-Liste"></div>
+    </section>
+
+    <section id="nav-r-speaker" class="right-bar amp-panel amp-panel--speaker-detail">
+        <div id="speaker-detail" aria-live="polite"></div>
+    </section>
+
+    <section id="nav-l-location" class="left-bar amp-panel amp-panel--intro">
+        <p class="amp-panel__eyebrow">Location</p>
+        <h2>Gottlieb Duttweiler Institute</h2>
+        <p>Langhaldenstrasse 21, 8803 Rüschlikon. Türöffnung ab 12 Uhr, Beginn der Referate ab 13 Uhr.</p>
+    </section>
+
+    <section id="nav-r-location" class="right-bar amp-panel amp-panel--location">
+        <img src="/media/img/location.jpg" alt="Gottlieb Duttweiler Institute">
     </section>
 </main>

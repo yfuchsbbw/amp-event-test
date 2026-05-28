@@ -56,12 +56,12 @@ function createSpeakerCard(speaker) {
     const imagePath = getImagePath(speaker.image);
 
     return `
-        <a href="#speaker" class="speaker-card speaker-link add-follow-img nav-l-talker-${escapeAttribute(speakerId)} nav-r-talker-${escapeAttribute(speakerId)} hide-overflow" data-id="${escapeAttribute(speakerId)}" data-img="${escapeAttribute(imagePath)}">
+        <button type="button" class="speaker-card speaker-link add-follow-img hide-overflow" data-id="${escapeAttribute(speakerId)}" data-img="${escapeAttribute(imagePath)}">
             <span class="name">${escapeHtml(speaker.name)}</span>
             <div class="speaker-description">
                 <span class="description">${escapeHtml(speaker.role)}</span>
             </div>
-        </a>
+        </button>
     `;
 }
 

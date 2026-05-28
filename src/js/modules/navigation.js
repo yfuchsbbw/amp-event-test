@@ -22,8 +22,21 @@ export function changeSection(event, side) {
         return;
     }
 
+    if (isBlockedSectionNavigation(event)) {
+        blockNavigationEvent(event);
+        return;
+    }
+
+    if (isBlockedHomeNavigation(navClass)) {
+        blockNavigationEvent(event);
+        return;
+    }
+
+    event.ampSectionNavigationStarted = true;
+
     closeOverlayNavigation();
     updateLogoColor(trigger, side);
+    updatePageClassBeforeSectionChange(trigger);
 
     if (isHumanClick(event)) {
         animateSectionChange(trigger, navClass, side);
@@ -189,7 +202,7 @@ function getHiddenDescriptionHeight(trigger, element) {
 }
 
 function animateSectionChange(trigger, navClass, side) {
-    document.body.classList.add('changing_page');
+    lockSectionNavigation();
 
     if (side === 'l') {
         animateLeftSection(navClass);
@@ -200,7 +213,10 @@ function animateSectionChange(trigger, navClass, side) {
 }
 
 function animateLeftSection(navClass) {
-    const timeline = gsap.timeline({ defaults: { duration: 1 } });
+    const timeline = gsap.timeline({
+        defaults: { duration: 1 },
+        onComplete: unlockSectionNavigation,
+    });
 
     getInactiveSections(navClass, 'l').forEach((element) => {
         timeline
@@ -213,13 +229,15 @@ function animateLeftSection(navClass) {
     getActiveSections(navClass).forEach((element) => {
         timeline
             .to(element, { opacity: 1 }, 0)
-            .call(() => element.classList.add('show'), [], 0)
-            .call(() => document.body.classList.remove('changing_page'), [], 1);
+            .call(() => element.classList.add('show'), [], 0);
     });
 }
 
 function animateRightSection(trigger, navClass, side) {
-    const timeline = gsap.timeline({ defaults: { duration: 0.5 } });
+    const timeline = gsap.timeline({
+        defaults: { duration: 0.5 },
+        onComplete: unlockSectionNavigation,
+    });
 
     getInactiveSections(navClass, 'r').forEach((element) => {
         timeline
@@ -231,8 +249,7 @@ function animateRightSection(trigger, navClass, side) {
         timeline
             .call(() => element.classList.add('show'))
             .call(() => changePageOnBody(trigger, side))
-            .to(element, { opacity: 1 })
-            .call(() => document.body.classList.remove('changing_page'));
+            .to(element, { opacity: 1 });
     });
 }
 
@@ -276,6 +293,20 @@ function updateLogoColor(trigger, side) {
     document.body.classList.toggle('logo-white', trigger.classList.contains('mk-white-logo'));
 }
 
+function updatePageClassBeforeSectionChange(trigger) {
+    const rightNavClass = getNavigationClass(trigger, 'r');
+
+    if (!rightNavClass) {
+        return;
+    }
+
+    const pageName = rightNavClass.replace('nav-r-', '');
+
+    if (pageName === 'programm') {
+        changePageOnBody(trigger, 'r');
+    }
+}
+
 function removeBodyPageClasses() {
     Array.from(document.body.classList)
         .filter((className) => className.startsWith('page-'))
@@ -287,11 +318,11 @@ function getNavigationClass(element, side) {
 }
 
 function getActiveSections(navClass) {
-    return qsa(`div[id*="${cssEscape(navClass)}"]`);
+    return qsa(`[id*="${cssEscape(navClass)}"]`);
 }
 
 function getInactiveSections(navClass, side) {
-    return qsa(`div[id*="nav-${side}-"]:not([id*="${cssEscape(navClass)}"])`);
+    return qsa(`[id*="nav-${side}-"]:not([id*="${cssEscape(navClass)}"])`);
 }
 
 function getNavigationModeSelector() {
@@ -306,6 +337,36 @@ function clickDefaultNavigation() {
         || document.querySelector('a[href="#home"]');
 
     defaultAnchor?.click();
+}
+
+function isBlockedSectionNavigation(event) {
+    return document.body.classList.contains('changing_page') && !event.ampSectionNavigationStarted;
+}
+
+function isBlockedHomeNavigation(navClass) {
+    if (state.logoAnimationLoaded || !navClass.endsWith('-home')) {
+        return false;
+    }
+
+    return state.currentPage !== null && state.currentPage !== 'home';
+}
+
+function blockNavigationEvent(event) {
+    event.preventDefault();
+    event.stopImmediatePropagation();
+}
+
+function lockSectionNavigation() {
+    state.activeSectionAnimations += 1;
+    document.body.classList.add('changing_page');
+}
+
+function unlockSectionNavigation() {
+    state.activeSectionAnimations = Math.max(0, state.activeSectionAnimations - 1);
+
+    if (state.activeSectionAnimations === 0) {
+        document.body.classList.remove('changing_page');
+    }
 }
 
 function cssEscape(value) {

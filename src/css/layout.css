@@ -10,8 +10,10 @@
     @apply relative z-10;
 }
 
-.video-background {
-    @apply flex;
+#main-content-container.video-background {
+    @apply fixed inset-0 flex h-screen w-screen cursor-default;
+    font-family: "Helvetica Neue LT Pro", Arial, sans-serif;
+    transition: padding 0.25s ease;
 }
 
 .video-background::before {
