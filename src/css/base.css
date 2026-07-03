@@ -27,11 +27,13 @@
 @layer base {
     html {
         @apply scroll-smooth;
+        -webkit-text-size-adjust: 100%;
     }
 
     body {
         @apply m-0 min-h-screen bg-[#c69c6d] text-[#25232b];
         font-family: "Helvetica Neue LT Pro", Arial, sans-serif;
+        overflow-x: hidden;
     }
 
     *,
@@ -46,6 +48,13 @@
     canvas,
     svg {
         @apply block max-w-full;
+    }
+
+    button,
+    input,
+    select,
+    textarea {
+        font: inherit;
     }
 
     a {

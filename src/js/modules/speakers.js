@@ -2,15 +2,25 @@ import { renderSpeakers } from '../ui/speakerRenderer.js';
 
 export async function initSpeakers() {
     try {
-        const response = await fetch('/data/speakers.json');
+        const [speakersResponse, archiveResponse] = await Promise.all([
+            fetch('/data/speakers.json'),
+            fetch('/data/speakers_2024.json'),
+        ]);
 
-        if (!response.ok) {
+        if (!speakersResponse.ok) {
             throw new Error('Could not load speakers.json');
         }
 
-        const speakers = await response.json();
+        if (!archiveResponse.ok) {
+            throw new Error('Could not load speakers_2024.json');
+        }
 
-        renderSpeakers(speakers);
+        const [speakers, archiveSpeakers] = await Promise.all([
+            speakersResponse.json(),
+            archiveResponse.json(),
+        ]);
+
+        renderSpeakers(speakers, archiveSpeakers);
     } catch (error) {
         console.error('initSpeakers failed:', error);
     }

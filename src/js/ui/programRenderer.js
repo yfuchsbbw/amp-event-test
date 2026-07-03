@@ -1,3 +1,5 @@
+import { escapeHtml } from '../core/helpers.js';
+
 export function renderProgram(programItems) {
     const list = document.querySelector('#program-list');
 
@@ -19,13 +21,4 @@ function createProgramItem(item) {
             <time>${escapeHtml(timeLabel)} Uhr</time>
         </li>
     `;
-}
-
-function escapeHtml(value = '') {
-    return String(value)
-        .replaceAll('&', '&amp;')
-        .replaceAll('<', '&lt;')
-        .replaceAll('>', '&gt;')
-        .replaceAll('"', '&quot;')
-        .replaceAll("'", '&#039;');
 }

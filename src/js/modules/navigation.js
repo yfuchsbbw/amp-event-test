@@ -3,6 +3,8 @@ import { isHumanClick, qsa } from '../core/helpers.js';
 import { state } from '../core/state.js';
 
 let navigationController = null;
+const SECTION_TRANSITION_DURATION = 0.6;
+let sectionTransitionTimelines = [];
 
 export function initNavigation() {
     if (navigationController) {
@@ -11,6 +13,7 @@ export function initNavigation() {
 
     navigationController = new AbortController();
     bindNavigationEvents(navigationController.signal);
+    bindMobileNavigation(navigationController.signal);
     handleAnchor();
 }
 
@@ -19,6 +22,17 @@ export function changeSection(event, side) {
     const navClass = getNavigationClass(trigger, side);
 
     if (!navClass) {
+        return;
+    }
+
+    if (side === 'l' && trigger.classList.contains('nav-r-location') && navClass === 'nav-l-location') {
+        event.preventDefault();
+        event.stopImmediatePropagation();
+        event.ampSectionNavigationStarted = true;
+        closeOverlayNavigation();
+        animateSectionChange(trigger, navClass, side);
+        animateSectionChange(trigger, 'nav-r-location', 'r');
+        updateNavigationState(trigger, 'nav-r-location');
         return;
     }
 
@@ -108,6 +122,31 @@ function bindNavigationEvents(signal) {
     qsa('*[class*="nav-desc"]').forEach((element) => {
         element.addEventListener('click', () => changeDesc(element), { signal });
     });
+}
+
+function bindMobileNavigation(signal) {
+    const trigger = document.querySelector('#mobile-nav-trigger');
+    const navigation = document.querySelector('#main-nav');
+
+    if (!trigger || !navigation) {
+        return;
+    }
+
+    trigger.addEventListener('click', () => {
+        const isOpen = trigger.classList.toggle('open');
+
+        navigation.classList.toggle('active', isOpen);
+        document.body.classList.toggle('mobile-nav-open', isOpen);
+        trigger.setAttribute('aria-expanded', String(isOpen));
+        trigger.setAttribute('aria-label', isOpen ? 'Navigation schliessen' : 'Navigation oeffnen');
+    }, { signal });
+
+    document.addEventListener('keydown', (event) => {
+        if (event.key === 'Escape' && trigger.classList.contains('open')) {
+            closeOverlayNavigation();
+            trigger.focus();
+        }
+    }, { signal });
 }
 
 function changeDesc(trigger) {
@@ -202,6 +241,7 @@ function getHiddenDescriptionHeight(trigger, element) {
 }
 
 function animateSectionChange(trigger, navClass, side) {
+    cancelSectionTransitions(side);
     lockSectionNavigation();
 
     if (side === 'l') {
@@ -214,42 +254,56 @@ function animateSectionChange(trigger, navClass, side) {
 
 function animateLeftSection(navClass) {
     const timeline = gsap.timeline({
-        defaults: { duration: 1 },
-        onComplete: unlockSectionNavigation,
+        defaults: { duration: SECTION_TRANSITION_DURATION },
+        onComplete: () => {
+            removeCompletedSectionTimeline(timeline);
+            unlockSectionNavigation();
+        },
     });
+    sectionTransitionTimelines.push({ side: 'l', timeline });
 
     getInactiveSections(navClass, 'l').forEach((element) => {
         timeline
-            .to(element, { opacity: 0 }, 0)
-            .to(element, { position: 'absolute' }, 0)
-            .call(() => element.classList.remove('show'), [], 1)
-            .to(element, { position: 'static' }, 1);
+            .set(element, { willChange: 'opacity', position: 'absolute' }, 0)
+            .to(element, { autoAlpha: 0, force3D: true, ease: 'power2.inOut' }, 0)
+            .call(() => element.classList.remove('show'), [], SECTION_TRANSITION_DURATION)
+            .set(element, { position: 'static', willChange: 'auto' }, SECTION_TRANSITION_DURATION);
     });
 
     getActiveSections(navClass).forEach((element) => {
         timeline
-            .to(element, { opacity: 1 }, 0)
-            .call(() => element.classList.add('show'), [], 0);
+            .set(element, { willChange: 'opacity' }, 0)
+            .call(() => element.classList.add('show'), [], 0)
+            .to(element, { autoAlpha: 1, force3D: true, ease: 'power2.inOut' }, 0)
+            .set(element, { willChange: 'auto' }, SECTION_TRANSITION_DURATION);
     });
 }
 
 function animateRightSection(trigger, navClass, side) {
     const timeline = gsap.timeline({
-        defaults: { duration: 0.5 },
-        onComplete: unlockSectionNavigation,
+        defaults: { duration: SECTION_TRANSITION_DURATION },
+        onComplete: () => {
+            removeCompletedSectionTimeline(timeline);
+            unlockSectionNavigation();
+        },
     });
+    sectionTransitionTimelines.push({ side, timeline });
 
     getInactiveSections(navClass, 'r').forEach((element) => {
         timeline
-            .to(element, { opacity: 0 }, 0)
-            .call(() => element.classList.remove('show'));
+            .set(element, { willChange: 'opacity' }, 0)
+            .to(element, { autoAlpha: 0, force3D: true, ease: 'power2.inOut' }, 0)
+            .call(() => element.classList.remove('show'), [], SECTION_TRANSITION_DURATION)
+            .set(element, { willChange: 'auto' }, SECTION_TRANSITION_DURATION);
     });
 
     getActiveSections(navClass).forEach((element) => {
         timeline
-            .call(() => element.classList.add('show'))
-            .call(() => changePageOnBody(trigger, side))
-            .to(element, { opacity: 1 });
+            .set(element, { willChange: 'opacity' }, 0)
+            .call(() => element.classList.add('show'), [], 0)
+            .call(() => changePageOnBody(trigger, side), [], 0)
+            .to(element, { autoAlpha: 1, force3D: true, ease: 'power2.inOut' }, 0)
+            .set(element, { willChange: 'auto' }, SECTION_TRANSITION_DURATION);
     });
 }
 
@@ -281,8 +335,15 @@ function updateNavigationState(trigger, navClass) {
 function closeOverlayNavigation() {
     document.querySelector('.imprint')?.classList.remove('active');
     document.querySelector('#mobile-nav')?.classList.remove('active');
+    document.querySelector('#main-nav')?.classList.remove('active');
     document.querySelector('#main-content-container')?.classList.remove('hide');
-    document.querySelector('#mobile-nav-trigger')?.classList.remove('open');
+    document.body.classList.remove('mobile-nav-open');
+
+    const mobileTrigger = document.querySelector('#mobile-nav-trigger');
+
+    mobileTrigger?.classList.remove('open');
+    mobileTrigger?.setAttribute('aria-expanded', 'false');
+    mobileTrigger?.setAttribute('aria-label', 'Navigation oeffnen');
 }
 
 function updateLogoColor(trigger, side) {
@@ -327,8 +388,9 @@ function getInactiveSections(navClass, side) {
 
 function getNavigationModeSelector() {
     const mobileSize = window.matchMedia('(max-width: 1024px)');
+    const mobileNavigation = document.querySelector('#mobile-nav nav');
 
-    return mobileSize.matches ? '#mobile-nav nav' : 'header';
+    return mobileSize.matches && mobileNavigation ? '#mobile-nav nav' : 'header';
 }
 
 function clickDefaultNavigation() {
@@ -340,7 +402,7 @@ function clickDefaultNavigation() {
 }
 
 function isBlockedSectionNavigation(event) {
-    return document.body.classList.contains('changing_page') && !event.ampSectionNavigationStarted;
+    return false;
 }
 
 function isBlockedHomeNavigation(navClass) {
@@ -356,6 +418,22 @@ function blockNavigationEvent(event) {
     event.stopImmediatePropagation();
 }
 
+function cancelSectionTransitions(side) {
+    const remainingTimelines = [];
+
+    sectionTransitionTimelines.forEach((entry) => {
+        if (entry.side !== side) {
+            remainingTimelines.push(entry);
+            return;
+        }
+
+        entry.timeline.kill();
+        unlockSectionNavigation();
+    });
+
+    sectionTransitionTimelines = remainingTimelines;
+}
+
 function lockSectionNavigation() {
     state.activeSectionAnimations += 1;
     document.body.classList.add('changing_page');
@@ -367,6 +445,10 @@ function unlockSectionNavigation() {
     if (state.activeSectionAnimations === 0) {
         document.body.classList.remove('changing_page');
     }
+}
+
+function removeCompletedSectionTimeline(timeline) {
+    sectionTransitionTimelines = sectionTransitionTimelines.filter((entry) => entry.timeline !== timeline);
 }
 
 function cssEscape(value) {

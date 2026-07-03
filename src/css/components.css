@@ -1,5 +1,5 @@
 .site-header {
-    @apply fixed left-0 top-0 z-30 flex w-full items-start justify-between px-10 py-10 text-[#25232b];
+    @apply absolute left-0 top-0 z-30 flex w-full items-start justify-between px-10 py-10 text-[#25232b];
 }
 
 .amp-logo {
@@ -37,6 +37,14 @@
     @apply bg-white text-black;
 }
 
+.mobile-nav-trigger {
+    @apply hidden;
+}
+
+.mobile-nav-presented {
+    @apply hidden;
+}
+
 .amp-home {
     @apply relative z-10 min-h-screen text-[#25232b];
     font-family: "Helvetica Neue LT Pro", Arial, sans-serif;
@@ -46,6 +54,10 @@
 .right-bar {
     @apply absolute inset-0 opacity-0 pointer-events-none;
     font-family: "Helvetica Neue LT Pro", Arial, sans-serif;
+    backface-visibility: hidden;
+    contain: layout paint style;
+    transform: translateZ(0);
+    will-change: opacity;
 }
 
 .left-bar.show,
@@ -75,23 +87,55 @@
 }
 
 .amp-home__copy {
-    @apply absolute left-[440px] top-[788px] max-w-[470px] space-y-5 text-[22px] font-normal leading-[1.28] tracking-[-0.015em];
+    @apply absolute left-[440px] top-[788px] z-20 max-w-[470px] space-y-5 text-[22px] font-normal leading-[1.28] tracking-[-0.015em];
 }
 
 .amp-home__copy .link {
-    @apply underline underline-offset-2;
+    @apply relative z-30 underline underline-offset-2;
 }
 
 .amp-home__presented {
-    @apply absolute bottom-12 left-10 flex flex-col items-start gap-2 text-[11px] font-bold;
+    @apply absolute bottom-12 left-10 flex flex-col items-start gap-2 text-[12px] font-normal;
 }
 
 .amp-home__presented img {
-    @apply h-auto w-[140px];
+    @apply h-auto w-[252px];
+}
+
+.presented-logo {
+    @apply relative inline-block;
+    line-height: 0;
+}
+
+.presented-logo img {
+    @apply block;
+}
+
+.presented-logo__link {
+    @apply absolute top-0 bottom-0 no-underline outline-none;
+}
+
+.presented-logo__link--sulser {
+    left: 0;
+    width: 58%;
+}
+
+.presented-logo__link--twofold {
+    right: 0;
+    width: 36%;
 }
 
 .amp-home__right {
     @apply min-h-screen;
+}
+
+.amp-home__right.show {
+    @apply pointer-events-none;
+}
+
+.amp-home__date,
+.amp-home__cta {
+    @apply pointer-events-auto;
 }
 
 .amp-home__date {
@@ -107,15 +151,15 @@
 }
 
 .amp-home__cta {
-    @apply absolute bottom-8 right-10 grid w-[360px] grid-cols-[1fr_auto] gap-y-3 rounded bg-[#ffcc2a] px-4 pb-2 pt-3 text-black shadow-sm;
+    @apply absolute bottom-8 right-10 grid w-[320px] grid-cols-[1fr_auto] gap-y-1.5 rounded-[0.45rem] bg-[#ffcc2a] px-3.5 py-3 text-black shadow-sm transition-colors duration-300 hover:bg-black hover:text-white;
 }
 
 .amp-home__cta span:first-child {
-    @apply col-span-2 text-[11px] font-bold leading-none;
+    @apply col-span-2 text-[13px] font-normal leading-none;
 }
 
 .amp-home__cta strong {
-    @apply text-[24px] font-normal leading-[1.08];
+    @apply text-[22px] font-normal leading-[1.04];
 }
 
 .amp-home__cta-arrow {
@@ -123,7 +167,7 @@
 }
 
 .amp-home__cta-arrow svg {
-    @apply h-[34px] w-[34px]; 
+    @apply h-[28px] w-[28px];
 }
 
 .amp-home__cta-arrow path {
@@ -132,47 +176,6 @@
     stroke-width: 1.8;
     stroke-linecap: square;
     stroke-linejoin: miter;
-}
-
-#speaker-list {
-    @apply mt-10 grid max-h-[58vh] w-full grid-cols-1 gap-2 overflow-y-auto pr-2;
-}
-
-.speaker-card {
-    @apply block w-full cursor-pointer rounded bg-white/70 p-4 text-left text-[#25232b] transition-colors;
-}
-
-.speaker-card:hover {
-    @apply bg-white/70;
-}
-
-.speaker-card.active,
-.speaker-card.is-active {
-    @apply bg-white text-black;
-}
-
-#speaker-detail {
-    @apply w-full;
-}
-
-.speaker-detail {
-    @apply max-w-3xl;
-}
-
-.speaker-detail .talker-img {
-    @apply mb-6 max-h-[56vh] w-auto rounded object-contain;
-}
-
-.speaker-detail h1 {
-    @apply mb-2 text-4xl font-normal leading-none;
-}
-
-.speaker-detail h3 {
-    @apply mb-4 text-xl font-normal;
-}
-
-.speaker-detail p {
-    @apply max-w-2xl text-base leading-relaxed;
 }
 
 .amp-panel {
@@ -205,11 +208,11 @@
 }
 
 .program-list {
-    @apply m-0 grid list-none gap-8 p-0;
+    @apply m-0 grid list-none gap-7 p-0;
 }
 
 .program-item {
-    @apply grid cursor-default grid-cols-[1fr_auto] items-end gap-6 border-b-2 border-black pb-1 text-black;
+    @apply grid cursor-default grid-cols-[minmax(0,1fr)_auto] items-end gap-6 border-b border-black pb-1 text-black;
 }
 
 .program-item time {
@@ -221,19 +224,187 @@
 }
 
 .amp-panel--speakers {
-    @apply max-w-[620px];
+    @apply max-w-none pt-[235px];
+}
+
+.amp-panel--speakers h1 {
+    @apply max-w-[870px] text-[123.38px] font-normal leading-[123.38px] tracking-[-3px];
+}
+
+.amp-panel--speaker-detail {
+    @apply bottom-[78px] left-auto right-4 top-auto flex min-h-0 w-[50vw] flex-col justify-end px-0 pb-0 pt-0;
+}
+
+#speaker-detail {
+    @apply mb-0 h-[110px] w-full;
+}
+
+.speaker-detail {
+    @apply relative h-full w-full;
+}
+
+.speaker-detail__years {
+    @apply absolute bottom-6 left-0 z-10 flex gap-1 text-[26px] leading-none text-black;
+}
+
+.speaker-year-button {
+    @apply cursor-pointer border-0 bg-transparent p-0 text-[26px] font-normal leading-none text-black;
+}
+
+.speaker-year-button.is-active {
+    @apply underline underline-offset-2;
+}
+
+.speaker-year-button:not(.is-active) {
+    @apply no-underline;
+}
+
+#speaker-list {
+    @apply grid w-full grid-cols-1;
+}
+
+.speaker-card {
+    @apply grid h-[72px] w-full cursor-pointer grid-cols-[minmax(0,1fr)_auto_34px] items-end gap-6 border-b border-black bg-transparent pb-2 text-left text-black transition-colors;
+}
+
+.speaker-card:hover,
+.speaker-card.active,
+.speaker-card.is-active {
+    @apply bg-transparent text-black;
 }
 
 .speaker-card .name {
-    @apply block text-[22px] font-normal leading-tight;
+    @apply block min-w-0 overflow-hidden text-ellipsis whitespace-nowrap font-normal leading-none;
+    font-size: clamp(28px, 1.75vw, 36px);
 }
 
 .speaker-card .description {
-    @apply mt-1 block text-[14px] leading-none opacity-70;
+    @apply block max-w-[520px] overflow-hidden text-ellipsis whitespace-nowrap font-normal leading-none;
+    font-size: clamp(17px, 1.05vw, 22px);
 }
 
-.amp-panel--location img {
-    @apply h-[68vh] w-full rounded object-cover;
+.speaker-card__arrow {
+    @apply block text-right text-[40px] font-normal leading-[0.76];
+}
+
+.speaker-hover-image {
+    @apply pointer-events-none fixed left-0 top-0 z-20 h-[430px] w-[305px] rounded-[5px] object-cover opacity-0 invisible;
+    transform: translate3d(0, 0, 0);
+    will-change: transform, opacity;
+}
+
+.speaker-profile-open .amp-panel--speakers {
+    @apply max-w-none overflow-hidden p-0;
+    width: 45vw;
+}
+
+.speaker-profile-image {
+    @apply h-screen w-full object-cover;
+}
+
+.amp-panel--speaker-detail.is-profile {
+    @apply bottom-auto right-0 top-0 min-h-screen w-[55vw] justify-start px-[8vw] pb-16 pt-[190px];
+}
+
+.amp-panel--speaker-detail.is-profile #speaker-detail {
+    @apply h-auto;
+}
+
+.amp-panel--speaker-detail.is-profile #speaker-list {
+    @apply hidden;
+}
+
+.speaker-profile {
+    @apply max-w-[670px] text-black;
+}
+
+.speaker-profile__back {
+    @apply mb-10 cursor-pointer border-0 bg-transparent p-0 text-[36px] font-normal leading-none text-black;
+}
+
+.speaker-profile__role {
+    @apply mb-2 text-[24px] font-normal leading-none;
+}
+
+.speaker-profile h2 {
+    @apply text-[52px] font-normal leading-[1.02] tracking-[-0.035em];
+}
+
+.speaker-profile__bio {
+    @apply mt-14 text-[18px] font-normal leading-[1.32];
+}
+
+.speaker-profile__bio p {
+    @apply m-0;
+}
+
+.speaker-profile__bio p + p {
+    @apply mt-0;
+}
+
+.speaker-profile__links {
+    @apply mt-12 flex flex-wrap gap-10 text-[18px] font-normal leading-none;
+}
+
+.speaker-profile__links a {
+    @apply inline-flex items-center gap-2 text-black no-underline outline-none;
+}
+
+.speaker-profile__links a:hover,
+.speaker-profile__links a:focus,
+.speaker-profile__links a:active {
+    @apply text-black no-underline outline-none;
+}
+
+.speaker-profile__link-arrow {
+    @apply inline-block text-[1.15em] leading-none;
+}
+
+.amp-location-media {
+    @apply z-10 min-h-screen w-[45vw] overflow-hidden p-0;
+}
+
+.amp-location-media > :not(img) {
+    @apply hidden;
+}
+
+.amp-location-media img {
+    @apply h-screen w-full object-cover grayscale;
+    filter: grayscale(1) sepia(0.18) brightness(1.04);
+}
+
+.amp-panel--location-detail {
+    @apply left-auto right-0 flex min-h-screen w-[55vw] flex-col justify-center px-[8vw] pb-16 pt-48 text-[#25232b];
+}
+
+.amp-panel--location-detail > img {
+    @apply hidden;
+}
+
+.location-back {
+    @apply mb-10 block w-fit text-[36px] font-normal leading-none;
+}
+
+.amp-panel--location-detail h2 {
+    @apply max-w-[860px] text-[92px] font-normal leading-[0.98] tracking-[-0.055em];
+}
+
+.amp-panel--location-detail p {
+    @apply mt-9 max-w-[620px] text-[22px] font-normal leading-[1.32];
+}
+
+.location-links {
+    @apply mt-12 flex gap-16 text-[20px] font-normal;
+}
+
+.location-links a {
+    @apply no-underline outline-none;
+}
+
+.location-links a:hover,
+.location-links a:focus,
+.location-links a:active {
+    @apply no-underline text-inherit outline-none;
 }
 
 .page-programm #background-gabrielle {
@@ -253,8 +424,12 @@
     @apply max-w-none text-[123.38px] font-normal leading-[123.38px] tracking-[-3px];
 }
 
+.program-download {
+    @apply mt-11 inline-flex h-[46px] min-w-[320px] items-center justify-center self-end rounded-full bg-[#ffcc2a] px-9 text-[22px] font-normal leading-none text-black transition-colors hover:bg-white;
+}
+
 .amp-panel--program-list {
-    @apply bottom-[84px] left-auto right-4 top-auto min-h-0 w-[49vw] px-0 pb-0 pt-0;
+    @apply bottom-[84px] left-auto right-10 top-auto flex min-h-0 w-[62vw] flex-col px-0 pb-0 pt-0;
 }
 
 .amp-panel--program-intro .amp-panel__presented {
@@ -269,52 +444,535 @@
     @apply w-[165px];
 }
 
-@media (max-width: 1024px) {
-    .site-header {
-        @apply px-5 py-5;
+@media (min-width: 1025px) {
+    .amp-home {
+        --home-x: clamp(32px, 3vw, 64px);
+        --home-lower-y: clamp(500px, 53vh, 720px);
     }
 
-    .amp-logo__word {
-        @apply text-[76px];
+    .site-header {
+        padding: clamp(24px, 2.1vw, 40px);
+    }
+
+    .amp-logo {
+        width: clamp(220px, 17.5vw, 335.13px);
+        max-width: none;
     }
 
     .navigation {
-        @apply hidden;
+        gap: clamp(8px, 0.85vw, 16px);
     }
 
-    .amp-home {
-        @apply block px-5 pb-8 pt-32;
+    .nav-item {
+        height: clamp(38px, 2.3vw, 44px);
+        padding-inline: clamp(18px, 1.7vw, 32px);
+        font-size: clamp(17px, 1.23vw, 23.49px);
     }
 
-    .amp-home__left {
-        @apply min-h-[70vh] px-0 pb-0 pt-0;
+    .amp-home__headline,
+    .amp-panel--speakers h1,
+    .amp-panel--program-intro h1,
+    .amp-panel--program-intro h2 {
+        font-size: clamp(62px, 5.85vw, 112px);
+        line-height: 0.98;
+        letter-spacing: clamp(-3px, -0.16vw, -1.5px);
     }
 
     .amp-home__headline {
-        @apply text-[56px];
-    }
-
-    .amp-home__info {
-        @apply mt-16 block;
+        left: var(--home-x);
+        top: clamp(160px, 19vh, 245px);
+        max-width: min(1020px, 61vw);
     }
 
     .amp-home__venue {
-        @apply mb-8 text-[44px];
+        bottom: auto;
+        left: var(--home-x);
+        top: var(--home-lower-y);
+        font-size: clamp(54px, 4.7vw, 76px);
+        line-height: 1.05;
     }
 
-    .amp-home__right {
-        @apply min-h-[45vh];
+    .amp-home__copy {
+        bottom: auto;
+        left: clamp(410px, 30vw, 610px);
+        top: calc(var(--home-lower-y) + clamp(8px, 1vh, 18px));
+        width: clamp(330px, 27vw, 520px);
+        font-size: clamp(18px, 1.32vw, 25px);
+        line-height: 1.28;
+    }
+
+    .amp-home__presented {
+        bottom: clamp(20px, 2.5vh, 48px);
+        left: var(--home-x);
+    }
+
+    .amp-home__presented img {
+        width: clamp(170px, 13.2vw, 252px);
     }
 
     .amp-home__date {
-        @apply static mt-12 translate-y-0;
+        bottom: auto;
+        left: clamp(820px, 68vw, 1320px);
+        right: auto;
+        top: calc(var(--home-lower-y) - clamp(12px, 2vh, 28px));
+        max-width: min(780px, 46vw);
     }
 
     .amp-home__date h2 {
-        @apply text-[58px];
+        font-size: clamp(58px, 5.35vw, 104px);
+        white-space: nowrap;
+    }
+
+    .amp-home__date h2 br:first-child {
+        display: block;
+    }
+
+    .amp-home__date h2 br:nth-child(2) {
+        display: none;
     }
 
     .amp-home__cta {
-        @apply static mt-10 w-full;
+        right: clamp(24px, 2.1vw, 40px);
+        width: clamp(260px, 18vw, 320px);
+    }
+
+    .amp-panel {
+        padding-inline: clamp(24px, 2.1vw, 40px);
+        padding-top: clamp(160px, 17.6vh, 190px);
+    }
+
+    .amp-panel--program-intro,
+    .amp-panel--speakers {
+        padding-top: clamp(185px, 21.75vh, 235px);
+    }
+
+    .amp-panel--program-list {
+        bottom: clamp(30px, 7.8vh, 84px);
+        right: clamp(24px, 2.1vw, 40px);
+    }
+
+    .program-download {
+        min-width: clamp(260px, 23vw, 320px);
+        height: clamp(40px, 2.4vw, 46px);
+        font-size: clamp(18px, 1.15vw, 22px);
+    }
+
+    .program-list {
+        gap: clamp(14px, 2.96vh, 32px);
+    }
+
+    .program-item span,
+    .program-item time,
+    .speaker-card .name {
+        font-size: clamp(19px, 1.25vw, 24px);
+    }
+
+    .amp-panel--location-detail {
+        padding-left: clamp(80px, 8vw, 150px);
+        padding-right: clamp(44px, 5vw, 92px);
+    }
+
+    .amp-panel--location-detail h2 {
+        font-size: clamp(62px, 5.7vw, 108px);
+    }
+
+    .amp-panel--location-detail p {
+        font-size: clamp(17px, 1.17vw, 22px);
+    }
+
+    .amp-panel--speaker-detail.is-profile {
+        padding-left: clamp(72px, 7.8vw, 150px);
+        padding-right: clamp(44px, 5vw, 92px);
+        padding-top: clamp(150px, 16vh, 210px);
+    }
+
+    .speaker-profile h2 {
+        font-size: clamp(38px, 3.25vw, 58px);
+    }
+
+    .speaker-profile__bio {
+        font-size: clamp(15px, 1.02vw, 18px);
+    }
+}
+
+@media (max-width: 1024px) {
+    body.mobile-nav-open {
+        @apply overflow-hidden;
+    }
+
+    #page {
+        min-height: 100svh;
+        overflow-x: hidden;
+        overflow-y: visible;
+    }
+
+    .site-header {
+        @apply flex-row items-start px-10 py-7;
+        background: transparent;
+    }
+
+    .amp-logo {
+        @apply relative z-40;
+        width: clamp(150px, 41vw, 220px);
+        max-width: none;
+    }
+
+    body.mobile-nav-open .amp-logo {
+        @apply visible opacity-100;
+    }
+
+    .mobile-nav-trigger {
+        @apply relative z-40 flex h-12 w-12 flex-col items-stretch justify-center gap-[7px] border-0 bg-transparent p-0;
+    }
+
+    .mobile-nav-trigger span {
+        @apply block h-[4px] w-full bg-[#25232b] transition-transform duration-300;
+        transform-origin: center;
+    }
+
+    .mobile-nav-trigger.open span:first-child {
+        transform: translateY(11px) rotate(45deg);
+    }
+
+    .mobile-nav-trigger.open span:nth-child(2) {
+        @apply opacity-0;
+    }
+
+    .mobile-nav-trigger.open span:last-child {
+        transform: translateY(-11px) rotate(-45deg);
+    }
+
+    #main-nav {
+        @apply invisible fixed inset-0 z-30 flex translate-y-[-8px] flex-col bg-[#c69c6d] px-5 pb-10 pt-[220px] opacity-0 transition-all duration-300;
+        pointer-events: none;
+    }
+
+    #main-nav.active {
+        @apply visible translate-y-0 opacity-100;
+        pointer-events: auto;
+    }
+
+    .navigation {
+        @apply flex w-full flex-col items-start gap-5 pt-0;
+    }
+
+    .navigation li {
+        @apply w-full;
+    }
+
+    .nav-item {
+        @apply h-auto w-full justify-start rounded-none bg-transparent p-0 text-[48px] font-normal leading-[1.15] text-[#25232b] hover:bg-transparent hover:text-[#25232b];
+    }
+
+    .nav-item.active,
+    .nav-item.active:hover {
+        @apply bg-transparent text-[#25232b];
+    }
+
+    .mobile-nav-presented {
+        @apply mt-auto flex flex-col items-start gap-2 text-[10px] font-normal text-[#25232b];
+    }
+
+    .mobile-nav-presented img {
+        @apply h-auto w-[118px];
+    }
+
+    .amp-home {
+        @apply flex min-h-[100svh] flex-col px-10 pb-5 pt-[170px];
+    }
+
+    .left-bar.show,
+    .right-bar.show {
+        @apply relative inset-auto block min-h-0 w-full opacity-100;
+    }
+
+    .left-bar:not(.show),
+    .right-bar:not(.show) {
+        @apply hidden;
+    }
+
+    .amp-home__left {
+        @apply min-h-0;
+    }
+
+    .amp-home__headline {
+        @apply static max-w-[720px];
+        font-size: clamp(34px, 8.6vw, 66px);
+        line-height: 1.02;
+        letter-spacing: -0.025em;
+    }
+
+    .amp-home__info {
+        @apply mt-11 block;
+    }
+
+    .amp-home__venue {
+        @apply hidden;
+    }
+
+    .amp-home__copy {
+        @apply static max-w-[39ch] space-y-4 text-[17px] leading-[1.22];
+    }
+
+    .amp-home__right {
+        @apply mt-14 min-h-0;
+    }
+
+    .amp-home__date {
+        @apply static;
+    }
+
+    .amp-home__date h2 {
+        font-size: clamp(38px, 9.7vw, 70px);
+        line-height: 0.98;
+    }
+
+    .amp-home__cta {
+        @apply hidden;
+    }
+
+    .amp-home__presented {
+        @apply hidden;
+    }
+
+    body.page-home .amp-home {
+        min-height: max(100svh, 760px);
+    }
+
+    body.page-home .amp-home__left,
+    body.page-home .amp-home__right {
+        display: contents;
+    }
+
+    body.page-home .amp-home__headline {
+        order: 1;
+    }
+
+    body.page-home .amp-home__info {
+        order: 2;
+    }
+
+    body.page-home .amp-home__date {
+        order: 3;
+        @apply mt-16;
+    }
+
+    body.page-home .amp-home__cta {
+        order: 4;
+    }
+
+    body.page-home .amp-home__presented {
+        @apply static flex text-[10px] font-normal;
+        order: 5;
+        @apply mt-auto gap-1.5 pt-24;
+    }
+
+    body.page-home .amp-home__presented img {
+        @apply w-[172px];
+    }
+
+    .amp-panel {
+        @apply min-h-0 w-full px-0 pb-0 pt-0;
+    }
+
+    .amp-panel--intro,
+    .amp-panel--speakers,
+    .amp-panel--program-intro {
+        @apply max-w-none;
+    }
+
+    .amp-panel--intro h1,
+    .amp-panel--intro h2,
+    .amp-panel--speakers h1,
+    .amp-panel--speakers h2,
+    .amp-panel--program-intro h1,
+    .amp-panel--program-intro h2 {
+        @apply max-w-[850px];
+        font-size: clamp(42px, 10vw, 78px);
+        line-height: 0.98;
+        letter-spacing: -0.04em;
+        overflow-wrap: anywhere;
+    }
+
+    .amp-panel--intro p:not(.amp-panel__eyebrow) {
+        @apply mt-6 max-w-[620px] text-[18px];
+    }
+
+    .program-download {
+        @apply mt-8 h-11 w-full min-w-0 self-stretch px-6 text-[18px];
+    }
+
+    .amp-panel--program-list,
+    .amp-panel--speaker-detail,
+    .amp-panel--location,
+    .amp-panel--location-detail {
+        @apply mt-12 w-full;
+    }
+
+    .program-list {
+        @apply gap-5;
+    }
+
+    .program-item {
+        @apply grid-cols-[minmax(0,1fr)_auto] gap-4;
+    }
+
+    .program-item span,
+    .program-item time {
+        @apply text-[18px] leading-[1.1];
+    }
+
+    #speaker-detail {
+        @apply h-12;
+    }
+
+    .speaker-detail__years {
+        @apply bottom-4 text-[20px];
+    }
+
+    .speaker-year-button {
+        @apply text-[20px];
+    }
+
+    .speaker-card {
+        @apply h-auto min-h-16 grid-cols-[minmax(0,1fr)_28px] gap-x-4 gap-y-1.5 py-3;
+    }
+
+    .speaker-card .name {
+        @apply whitespace-normal text-[22px] leading-[1.05];
+    }
+
+    .speaker-card .description {
+        @apply col-start-1 row-start-2 max-w-none whitespace-normal text-[15px] leading-[1.2];
+    }
+
+    .speaker-card__arrow {
+        @apply col-start-2 row-span-2 row-start-1 self-center text-[31px];
+    }
+
+    .speaker-hover-image {
+        @apply hidden;
+    }
+
+    .speaker-profile-open .amp-panel--speakers {
+        @apply relative inset-auto mt-8 min-h-0 w-full;
+    }
+
+    .speaker-profile-image {
+        @apply h-[58svh] min-h-[380px] w-full object-cover;
+    }
+
+    .amp-panel--speaker-detail.is-profile {
+        @apply mt-0 min-h-0 w-full px-0 pb-0 pt-10;
+    }
+
+    .amp-panel--speaker-detail.is-profile #speaker-detail {
+        @apply h-auto;
+    }
+
+    .speaker-profile {
+        @apply max-w-none;
+    }
+
+    .speaker-profile__back {
+        @apply mb-8 text-[28px];
+    }
+
+    .speaker-profile__role {
+        @apply text-[20px];
+    }
+
+    .speaker-profile h2 {
+        font-size: clamp(34px, 9vw, 52px);
+    }
+
+    .speaker-profile__bio {
+        @apply mt-9 text-[16px] leading-[1.38];
+    }
+
+    .speaker-profile__links {
+        @apply mt-8 gap-6 text-[16px];
+    }
+
+    .amp-location-media {
+        @apply relative inset-auto mt-8 min-h-0 w-full;
+    }
+
+    .amp-location-media img {
+        @apply h-[42svh] min-h-[280px] w-full object-cover;
+    }
+
+    .amp-panel--location-detail {
+        @apply flex min-h-0 w-full justify-start px-0 pb-0 pt-0;
+    }
+
+    .location-back {
+        @apply mb-8 text-[28px];
+    }
+
+    .amp-panel--location-detail h2 {
+        font-size: clamp(42px, 11vw, 72px);
+        line-height: 0.98;
+        letter-spacing: -0.055em;
+    }
+
+    .amp-panel--location-detail p {
+        @apply mt-7 max-w-[620px] text-[18px] leading-[1.35];
+    }
+
+    .location-links {
+        @apply mt-9 flex gap-10 text-[18px];
+    }
+}
+
+@media (max-width: 480px) {
+    .site-header {
+        @apply px-10;
+    }
+
+    .amp-home {
+        @apply px-10 pb-4;
+    }
+
+    #main-nav {
+        @apply pt-[235px];
+    }
+
+    .navigation {
+        @apply gap-6;
+    }
+
+    .nav-item {
+        font-size: clamp(42px, 12vw, 58px);
+    }
+
+    .mobile-nav-presented img {
+        @apply w-[112px];
+    }
+
+    body.page-home .amp-home__presented img {
+        @apply w-[160px];
+    }
+
+    .amp-home__headline,
+    .amp-panel--intro h1,
+    .amp-panel--intro h2,
+    .amp-panel--speakers h1,
+    .amp-panel--speakers h2,
+    .amp-panel--program-intro h1,
+    .amp-panel--program-intro h2 {
+        font-size: clamp(34px, 8.6vw, 42px);
+    }
+
+    .amp-home__cta strong {
+        @apply text-[21px];
+    }
+
+    .program-item {
+        @apply grid-cols-1 gap-1;
+    }
+
+    .program-item time {
+        @apply row-start-1 text-[15px];
     }
 }

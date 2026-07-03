@@ -1,121 +1,57 @@
 [
   {
-    "id": "andrea-amstutz",
-    "name": "Andrea Amstutz",
-    "role": "Speaker",
-    "image": "andrea_amstutz.png",
-    "excerpt": "Weitere Informationen folgen."
-  },
-  {
-    "id": "barbara-bleisch",
-    "name": "Barbara Bleisch",
-    "role": "Speaker",
-    "image": "Barbara_Bleisch.png",
-    "excerpt": "Weitere Informationen folgen."
-  },
-  {
-    "id": "eveline-von-arx",
-    "name": "Eveline von Arx",
-    "role": "Speaker",
-    "image": "Eveline_von_Arx.png",
-    "excerpt": "Weitere Informationen folgen."
-  },
-  {
-    "id": "gabrielle",
-    "name": "Gabrielle",
-    "role": "Speaker",
-    "image": "Gabrielle.png",
-    "excerpt": "Weitere Informationen folgen."
-  },
-  {
-    "id": "kupferschmid",
-    "name": "Kupferschmid",
-    "role": "Speaker",
-    "image": "Kupferschmid.png",
-    "excerpt": "Weitere Informationen folgen."
-  },
-  {
-    "id": "marcel-keller",
-    "name": "Marcel Keller",
-    "role": "Speaker",
-    "image": "Marcel_Keller.png",
-    "excerpt": "Weitere Informationen folgen."
-  },
-  {
-    "id": "nora-dietrich",
-    "name": "Nora Dietrich",
-    "role": "Speaker",
-    "image": "Nora_Dietrich.png",
-    "excerpt": "Weitere Informationen folgen."
-  },
-  {
-    "id": "patrick-rohr",
-    "name": "Patrick Rohr",
-    "role": "Speaker",
-    "image": "Patrick_Rohr.png",
-    "excerpt": "Weitere Informationen folgen."
-  },
-  {
-    "id": "rahel-haefele",
-    "name": "Rahel Haefele",
-    "role": "Speaker",
-    "image": "Rahel_Haefele.png",
-    "excerpt": "Weitere Informationen folgen."
-  },
-  {
-    "id": "azem-maksutaj",
-    "name": "Azem Maksutaj",
-    "role": "Speaker",
-    "image": "Speaker-AzemMaksutaj.png",
-    "excerpt": "Weitere Informationen folgen."
-  },
-  {
-    "id": "david-nauer",
-    "name": "David Nauer",
-    "role": "Speaker",
-    "image": "Speaker-DavidNauer.jpg",
-    "excerpt": "Weitere Informationen folgen."
-  },
-  {
     "id": "francis-cheneval",
     "name": "Prof. Dr. Francis Cheneval",
     "role": "Philosoph",
     "image": "Speaker-FrancisCheneval.jpg",
-    "excerpt": "Philosoph und Politikwissenschaftler."
+    "excerpt": "Francis Cheneval (*1962) studierte Philosophie und Politikwissenschaft an den Universitäten Fribourg und Georgetown.",
+    "bio": [
+      "Francis Cheneval (*1962) studierte Philosophie und Politikwissenschaft an den Universitäten Fribourg und Georgetown. Seine akademische Laufbahn führte ihn als Dozent und Forscher unter anderem an die École pratique des hautes études in Paris, die Universidad de los Andes in Bogotá, die University of Oxford, die Université de Nantes sowie die Université libre de Bruxelles.",
+      "Von 2006 bis 2008 war er als Rapporteur für Eigentumsrechte für die Commission on Legal Empowerment of the Poor (UNDP, New York) tätig. Seit 2011 ist er Inhaber des Lehrstuhls für Politische Philosophie an der Universität Zürich. Seine Forschung und Publikationen widmen sich zentralen Fragestellungen der politischen Philosophie sowie deren ideengeschichtlicher Entwicklung.",
+      "Neben seiner akademischen Tätigkeit engagiert sich Francis Cheneval in verschiedenen Stiftungen. Er ist Mitglied des Stiftungsrats der Paul-Schmitt-Gedächtnis-Stiftung in Zürich sowie Mitgründer und Stiftungsrat der Fundación Casa Taller El Boga in Mompox, Kolumbien."
+    ]
   },
   {
-    "id": "gregor-berger",
-    "name": "Gregor Berger",
-    "role": "Speaker",
-    "image": "Speaker-GregorBerger.png",
-    "excerpt": "Weitere Informationen folgen."
-  },
-  {
-    "id": "naomi-lareine",
-    "name": "Naomi Lareine",
-    "role": "Speaker",
-    "image": "Speaker-NaomiLareine.png",
-    "excerpt": "Weitere Informationen folgen."
+    "id": "david-nauer",
+    "name": "David Nauer",
+    "role": "Osteuropa-Korrespondent",
+    "image": "Speaker-DavidNauer.jpg",
+    "excerpt": "David Nauer berichtet seit vier Jahren für Schweizer Radio und Fernsehen SRF über den Ukraine-Krieg.",
+    "bio": [
+      "David Nauer berichtet seit vier Jahren für Schweizer Radio und Fernsehen SRF über den Ukraine-Krieg. Er ist schon über zwei Dutzend Mal ins Kriegsgebiet gereist, macht dort Reportagen über Zivilisten im Hinterland, aber auch über Soldaten an der Front. David Nauer lebt mit seiner Familie in Wien, von wo er für SRF regelmässig die politische Lage in der Ukraine und in Russland einordnet. Nauer hat insgesamt 10 Jahre in Russland gelebt und dort als Korrespondent gearbeitet. Er spricht fliessend Russisch und hat in den letzten Jahren auch Ukrainisch gelernt."
+      
+    ]
   },
   {
     "id": "niels-hintermann",
     "name": "Niels Hintermann",
-    "role": "Speaker",
+    "role": "Skirennfahrer",
     "image": "Speaker-NielsHintermann.png",
-    "excerpt": "Weitere Informationen folgen."
+    "excerpt": "Niels Hintermann, geboren am 5. Mai 1995, war über viele Jahre als Skirennfahrer für die Schweiz in den Speed-Disziplinen Abfahrt und Super-G aktiv.",
+    "bio": [
+      "Niels Hintermann, geboren am 5. Mai 1995, war über viele Jahre als Skirennfahrer für die Schweiz in den Speed-Disziplinen Abfahrt und Super-G aktiv. Zu den prägenden Momenten seiner Karriere zählt der Podestplatz in der Abfahrt von Kitzbühel im Jahr 2023 – auf einer der anspruchsvollsten Strecken der Welt, auf der neben technischem Können insbesondere Mut entscheidend ist.",
+      "Sein Weg im Spitzensport war jedoch nicht nur von Erfolgen geprägt. Verletzungen sowie eine Krebserkrankung stellten ihn vor Herausforderungen, die weit über den sportlichen Kontext hinausgingen. In diesen Phasen entwickelte sich ein vertieftes Verständnis von Mut: nicht als Abwesenheit von Angst, sondern als bewusste Entscheidung, den eigenen Weg dennoch weiterzugehen.",
+      "Heute richtet Niels Hintermann seinen Blick nach vorne. Nach dem Rücktritt vom aktiven Spitzensport widmet er sich seiner beruflichen Zukunft und engagiert sich unter anderem bei Athletes Network, wo er Athletinnen und Athleten in der Phase nach ihrer Karriere begleitet. Was ihn antreibt, ist unverändert geblieben: der Wille, Verantwortung zu übernehmen, sich weiterzuentwickeln und den eigenen Weg konsequent zu gehen – auch jenseits geradliniger Verläufe."
+    ]
   },
   {
-    "id": "peter-steiger",
-    "name": "Peter Steiger",
-    "role": "Speaker",
-    "image": "Speaker-PeterSteiger.png",
-    "excerpt": "Weitere Informationen folgen."
+    "id": "heike-bruch",
+    "name": "Prof. Dr. Heike Bruch",
+    "role": "Professorin für Leadership",
+    "image": "Speaker-HeikeBruch.png",
+    "excerpt": "Prof. Dr. Heike Bruch ist Ordinaria für Leadership der Universität St.Gallen.",
+    "bio": [
+      "Prof. Dr. Heike Bruch ist Ordinaria für Leadership der Universität St.Gallen. Zu ihren Forschungsgebieten gehören Leadership, organisationale Energie sowie New Work & Culture. Ausserdem ist sie Gastprofessorin an der Charité in Berlin. Heike Bruch wurde mehrfach als eine der führenden Wissenschaftlerinnen für Personalmanagement ausgezeichnet. Ausserdem gehört sie zu den 100 erfolgreichsten Frauen der Schweiz und wurde 2024 als eine der 50 HR Thought Leader der letzten 50 Jahre ausgewählt. Sie berät Top-Führungskräfte in ganz Europa auf den Gebieten Leadership, Energie und Kultur-Change. Im Jahr 2006 gründete sie die energy factory St.Gallen."
+    ]
   },
   {
-    "id": "philip-bosshard",
-    "name": "Philip Bosshard",
-    "role": "Speaker",
-    "image": "Speaker-PhilipBosshard.png",
-    "excerpt": "Weitere Informationen folgen."
+    "id": "patrick-rohr",
+    "name": "Patrick Rohr",
+    "role": "Journalist, Moderator, Kommunikationsberater",
+    "image": "Speaker-PatrickRohr.png",
+    "excerpt": "Patrick Rohr leitet seit 2007 seine eigene Agentur für Kommunikationsberatung und Medienproduktionen mit Sitz in Zürich.",
+    "bio": [
+      "Patrick Rohr leitet seit 2007 seine eigene Agentur für Kommunikationsberatung und Medienproduktionen mit Sitz in Zürich. Davor arbeitete er während 15 Jahren als Redaktor, Redaktionsleiter und Moderator verschiedener Sendungen des Schweizer Fernsehens (u.a. Arena, Quer). Heute leitet er Medien- und Auftrittstrainings und tritt regelmässig als Moderator und Speaker auf. Nach einer Ausbildung zum Berufsfotografen reist er als Fotojournalist für Organisationen wie Helvetas um die ganze Welt. Er hat vier Kommunikationsratgeber und zwei fotojournalistische Bücher veröffentlicht."
+    ]
   }
 ]

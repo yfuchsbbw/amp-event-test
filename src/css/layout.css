@@ -10,10 +10,16 @@
     @apply relative z-10;
 }
 
+.svg-filters {
+    @apply absolute h-0 w-0 overflow-hidden;
+}
+
 #main-content-container.video-background {
     @apply fixed inset-0 flex h-screen w-screen cursor-default;
     font-family: "Helvetica Neue LT Pro", Arial, sans-serif;
-    transition: padding 0.25s ease;
+    contain: strict;
+    isolation: isolate;
+    transform: translateZ(0);
 }
 
 .video-background::before {
@@ -22,14 +28,25 @@
 }
 
 #background-gabrielle {
-    @apply pointer-events-none fixed inset-0 z-0 overflow-hidden;
+    @apply pointer-events-none absolute inset-0 z-0 overflow-hidden;
 }
 
 .video-background video {
-    @apply fixed left-0 top-0 h-screen w-screen object-cover object-center;
-    transition: opacity 0.75s;
+    @apply absolute left-0 top-0 h-full w-full object-cover object-center;
     filter: none;
     mix-blend-mode: normal;
+    backface-visibility: hidden;
+    transform: translateZ(0);
+    will-change: transform;
+}
+
+body[class*="page-"]:not(.page-home) .video-background video,
+body.speaker-profile-open .video-background video {
+    filter: url("#video-white-to-light-gray");
+}
+
+body.changing_page .video-background video {
+    will-change: auto;
 }
 
 #background-video {

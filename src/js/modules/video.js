@@ -6,14 +6,33 @@ export function initVideo() {
         return;
     }
 
-    const startVideos = () => {
-        videoStart(desktopVideo, 1);
-        videoStart(mobileVideo, 1.8);
+    const mobileQuery = window.matchMedia('(max-width: 768px)');
+    let activeVideo = null;
+
+    const activateVideo = () => {
+        const nextVideo = mobileQuery.matches ? mobileVideo : desktopVideo;
+
+        if (!nextVideo || nextVideo === activeVideo) {
+            return;
+        }
+
+        pauseVideo(activeVideo);
+        activeVideo = nextVideo;
+        loadVideoSource(activeVideo);
+        videoStart(activeVideo, mobileQuery.matches ? 1.8 : 1);
     };
 
-    desktopVideo?.addEventListener('loadeddata', startVideos, { once: true });
-    mobileVideo?.addEventListener('loadeddata', startVideos, { once: true });
-    startVideos();
+    mobileQuery.addEventListener('change', activateVideo);
+    document.addEventListener('visibilitychange', () => {
+        if (document.hidden) {
+            pauseVideo(activeVideo);
+            return;
+        }
+
+        videoStart(activeVideo);
+    });
+
+    activateVideo();
 }
 
 export function videoStart(video, startTime = 0) {
@@ -35,5 +54,23 @@ export function videoStart(video, startTime = 0) {
         }
     } catch (error) {
         console.warn('videoStart failed:', error);
+    }
+}
+
+function loadVideoSource(video) {
+    const source = video?.querySelector('source[data-src]');
+
+    if (!source || source.src) {
+        return;
+    }
+
+    source.src = source.dataset.src;
+    video.preload = window.matchMedia('(max-width: 768px)').matches ? 'metadata' : 'auto';
+    video.load();
+}
+
+function pauseVideo(video) {
+    if (video && !video.paused) {
+        video.pause();
     }
 }

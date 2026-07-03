@@ -5,24 +5,40 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>AMP Event 2026</title>
     <script>document.documentElement.classList.add('fonts-loading');</script>
-    <style>
-      html.fonts-loading body {
-        visibility: hidden;
-      }
-    </style>
     <link rel="preload" href="/fonts/HelveticaNeueLTW02-55Roman.woff2" as="font" type="font/woff2" crossorigin>
     <link rel="preload" href="/fonts/HelveticaNeueLTW01-65Medium.woff2" as="font" type="font/woff2" crossorigin>
     <link rel="preload" href="/fonts/HelveticaNeueLTW01-75Bold.woff2" as="font" type="font/woff2" crossorigin>
+    <link rel="icon" type="image/x-icon" href="/media/favicon/favicon.png">
+
   </head>
   <body>
+    <svg width="0" height="0" aria-hidden="true" focusable="false" class="svg-filters">
+      <filter id="video-white-to-light-gray" color-interpolation-filters="sRGB">
+        <feColorMatrix
+          in="SourceGraphic"
+          result="white-mask"
+          type="matrix"
+          values="0 0 0 0 1
+                  0 0 0 0 1
+                  0 0 0 0 1
+                  0.8504 2.8608 0.2888 0 -3.2" />
+        <feComponentTransfer in="white-mask" result="inverse-white-mask">
+          <feFuncA type="table" tableValues="1 0" />
+        </feComponentTransfer>
+        <feComposite in="SourceGraphic" in2="inverse-white-mask" operator="in" result="source-without-white" />
+        <feFlood flood-color="#e9ebe6" flood-opacity="0.70" result="gray" />
+        <feComposite in="gray" in2="white-mask" operator="in" result="gray-lines" />
+        <feComposite in="gray-lines" in2="source-without-white" operator="over" />
+      </filter>
+    </svg>
     <div id="page">
       <div id="main-content-container" class="container video-background" aria-hidden="true">
         <div id="background-gabrielle">
-          <video id="background-video" playsinline autoplay muted loop preload="auto">
-            <source src="/media/video/AMP-26-Visual-Gold.mp4" type="video/mp4">
+          <video id="background-video" playsinline muted loop preload="none">
+            <source data-src="/media/video/AMP-26-Visual-Gold.mp4" type="video/mp4">
           </video>
-          <video id="background-video-mobile" playsinline autoplay muted loop preload="auto">
-            <source src="/media/video/AMP-26-Visual-Gold-P.mp4" type="video/mp4">
+          <video id="background-video-mobile" playsinline muted loop preload="none">
+            <source data-src="/media/video/AMP-26-Visual-Gold-P.mp4" type="video/mp4">
           </video>
         </div>
       </div>
@@ -33,12 +49,26 @@
             <div id="logo-animated" class="logo main-logo"></div>
           </a>
 
+          <button id="mobile-nav-trigger" class="mobile-nav-trigger" type="button" aria-controls="main-nav" aria-expanded="false" aria-label="Navigation öffnen">
+            <span></span>
+            <span></span>
+            <span></span>
+          </button>
+
           <nav id="main-nav" aria-label="Hauptnavigation">
             <ul class="navigation">
               <li><a href="#programm" class="nav-l-programm nav-r-programm nav-item">Programm</a></li>
               <li><a href="#speaker" class="nav-l-speaker nav-r-speaker nav-item">Speaker</a></li>
               <li><a href="#location" class="nav-l-location nav-r-location nav-item">Location</a></li>
             </ul>
+            <div class="mobile-nav-presented">
+              <span>präsentiert von</span>
+              <span class="presented-logo">
+                <img src="/media/img/sulser_twofold_logo.svg" alt="Sulser & Partner und twofold">
+                <a class="presented-logo__link presented-logo__link--sulser" href="https://www.sulserpartner.ch/" target="_blank" rel="noopener noreferrer" aria-label="Sulser & Partner Webseite"></a>
+                <a class="presented-logo__link presented-logo__link--twofold" href="https://twofold.swiss/" target="_blank" rel="noopener noreferrer" aria-label="twofold Webseite"></a>
+              </span>
+            </div>
           </nav>
         </header>
 
@@ -47,7 +77,7 @@
             <h1 class="amp-home__headline">MUT – wenn Haltung Wirkung entfaltet</h1>
 
             <div class="amp-home__info">
-              <h3 class="amp-home__venue">Gottlieb<br>Duttweiler<br>Institute</h3>
+              <h2 class="amp-home__venue">Gottlieb<br>Duttweiler<br>Institute</h2>
 
               <div class="amp-home__copy">
                 <p>Wir freuen uns, Sie wieder zu unserem jährlichen Event im <a href="#location" class="nav-l-location nav-r-location link">GDI Gottlieb Duttweiler</a> Institute einladen zu dürfen.</p>
@@ -57,7 +87,11 @@
 
             <div class="amp-home__presented">
               <span>präsentiert von</span>
-              <img src="/media/img/sulser_twofold_logo.svg" alt="Sulser & Partner und twofold">
+              <span class="presented-logo">
+                <img src="/media/img/sulser_twofold_logo.svg" alt="Sulser & Partner und twofold">
+                <a class="presented-logo__link presented-logo__link--sulser" href="https://www.sulserpartner.ch/" target="_blank" rel="noopener noreferrer" aria-label="Sulser & Partner Webseite"></a>
+                <a class="presented-logo__link presented-logo__link--twofold" href="https://twofold.swiss/" target="_blank" rel="noopener noreferrer" aria-label="twofold Webseite"></a>
+              </span>
             </div>
           </section>
 
@@ -67,7 +101,7 @@
               <h2>Freitag,<br>12. Juni 2026</h2>
             </div>
 
-            <a href="#location" class="amp-home__cta nav-l-location nav-r-location">
+            <a href="https://www.google.com/maps/place/GDI+Gottlieb+Duttweiler+Institute/@47.302246,8.5499481,17z/data=!3m1!4b1!4m6!3m5!1s0x479aa7c6a3636563:0x69901feb0b0794d4!8m2!3d47.302246!4d8.552523!16s%2Fm%2F047g8sy?entry=tts" class="amp-home__cta" target="_blank" rel="noopener noreferrer">
               <span>Anreise</span>
               <strong>Zum<br>Veranstaltungsort</strong>
               <span class="amp-home__cta-arrow" aria-hidden="true">
@@ -83,33 +117,55 @@
 
             <div class="amp-home__presented amp-panel__presented">
               <span>präsentiert von</span>
-              <img src="/media/img/sulser_twofold_logo.svg" alt="Sulser & Partner und twofold">
+              <span class="presented-logo">
+                <img src="/media/img/sulser_twofold_logo.svg" alt="Sulser & Partner und twofold">
+                <a class="presented-logo__link presented-logo__link--sulser" href="https://www.sulserpartner.ch/" target="_blank" rel="noopener noreferrer" aria-label="Sulser & Partner Webseite"></a>
+                <a class="presented-logo__link presented-logo__link--twofold" href="https://twofold.swiss/" target="_blank" rel="noopener noreferrer" aria-label="twofold Webseite"></a>
+              </span>
             </div>
           </section>
 
           <section id="nav-r-programm" class="right-bar amp-panel amp-panel--list amp-panel--program-list">
             <ol id="program-list" class="program-list" aria-label="Programmablauf"></ol>
+            <a class="program-download" href="/media/pdf/amp-programm-2026.pdf" target="_blank" rel="noopener noreferrer">Programm herunterladen</a>
           </section>
 
           <section id="nav-l-speaker" class="left-bar amp-panel amp-panel--speakers">
-            <p class="amp-panel__eyebrow">Speaker</p>
-            <h2>Menschen mit Haltung</h2>
-            <div id="speaker-list" class="speaker-list" aria-label="Speaker-Liste"></div>
+            <h1>Die Gesichter<br>des Erfolgs</h1>
+
+            <div class="amp-home__presented amp-panel__presented">
+              <span>präsentiert von</span>
+              <span class="presented-logo">
+                <img src="/media/img/sulser_twofold_logo.svg" alt="Sulser & Partner und twofold">
+                <a class="presented-logo__link presented-logo__link--sulser" href="https://www.sulserpartner.ch/" target="_blank" rel="noopener noreferrer" aria-label="Sulser & Partner Webseite"></a>
+                <a class="presented-logo__link presented-logo__link--twofold" href="https://twofold.swiss/" target="_blank" rel="noopener noreferrer" aria-label="twofold Webseite"></a>
+              </span>
+            </div>
           </section>
 
           <section id="nav-r-speaker" class="right-bar amp-panel amp-panel--speaker-detail">
             <div id="speaker-detail" aria-live="polite"></div>
+            <div id="speaker-list" class="speaker-list" aria-label="Speaker-Liste"></div>
           </section>
 
-          <section id="nav-l-location" class="left-bar amp-panel amp-panel--intro">
+          <section id="nav-l-location" class="left-bar amp-location-media">
+            <img src="/media/img/location.jpg" alt="Gottlieb Duttweiler Institute">
             <p class="amp-panel__eyebrow">Location</p>
             <h2>Gottlieb Duttweiler Institute</h2>
             <p>Langhaldenstrasse 21, 8803 Rüschlikon. Türöffnung ab 12 Uhr, Beginn der Referate ab 13 Uhr.</p>
           </section>
 
-          <section id="nav-r-location" class="right-bar amp-panel amp-panel--location">
+          <section id="nav-r-location" class="right-bar amp-panel amp-panel--location-detail">
             <img src="/media/img/location.jpg" alt="Gottlieb Duttweiler Institute">
+            <a href="#home" class="location-back nav-l-home nav-r-home" aria-label="Zurueck zur Startseite">←</a>
+            <h2>GDI Gottlieb<br>Duttweiler Institute</h2>
+            <p>Das Gottlieb Duttweiler Institut (GDI) ist ein unabhaengiger Think Tank in Wirtschaft, Gesellschaft und Konsum. Das Trendforschungsinstitut mit Sitz in Rueschlikon bei Zuerich ist die aelteste Denkfabrik der Schweiz. Das GDI ist Teil der Stiftung Im Gruene.</p>
+            <div class="location-links">
+              <a href="https://www.gdi.ch" target="_blank" rel="noopener noreferrer">Webseite</a>
+              <a href="https://www.google.com/maps/place/GDI+Gottlieb+Duttweiler+Institute/@47.302246,8.5499481,17z/data=!3m1!4b1!4m6!3m5!1s0x479aa7c6a3636563:0x69901feb0b0794d4!8m2!3d47.302246!4d8.552523!16s%2Fm%2F047g8sy?entry=tts" target="_blank" rel="noopener noreferrer">Google Maps</a>
+            </div>
           </section>
+
         </main>
       </div>
     </div>
