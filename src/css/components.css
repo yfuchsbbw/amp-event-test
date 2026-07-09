@@ -3,8 +3,10 @@
 }
 
 .amp-logo {
-    @apply block w-[335.13px] max-w-[22vw] overflow-hidden;
+    @apply block overflow-hidden;
     aspect-ratio: 335.13 / 95.74;
+    width: clamp(220px, 17.5vw, 335.13px);
+    max-width: none;
 }
 
 .main-logo {
@@ -95,11 +97,11 @@
 }
 
 .amp-home__presented {
-    @apply absolute bottom-12 left-10 flex flex-col items-start gap-2 text-[12px] font-normal;
+    @apply absolute bottom-12 left-10 flex flex-col items-start gap-3 text-[11px] font-normal;
 }
 
 .amp-home__presented img {
-    @apply h-auto w-[252px];
+    @apply h-auto w-[165px];
 }
 
 .presented-logo {
@@ -436,14 +438,6 @@
     @apply bottom-12;
 }
 
-.amp-panel--program-intro .amp-panel__presented {
-    @apply text-[11px] gap-3;
-}
-
-.amp-panel--program-intro .amp-panel__presented img {
-    @apply w-[165px];
-}
-
 @media (min-width: 1025px) {
     .amp-home {
         --home-x: clamp(32px, 3vw, 64px);
@@ -452,11 +446,6 @@
 
     .site-header {
         padding: clamp(24px, 2.1vw, 40px);
-    }
-
-    .amp-logo {
-        width: clamp(220px, 17.5vw, 335.13px);
-        max-width: none;
     }
 
     .navigation {
@@ -507,7 +496,7 @@
     }
 
     .amp-home__presented img {
-        width: clamp(170px, 13.2vw, 252px);
+        width: 165px;
     }
 
     .amp-home__date {
@@ -613,8 +602,6 @@
 
     .amp-logo {
         @apply relative z-40;
-        width: clamp(150px, 41vw, 220px);
-        max-width: none;
     }
 
     body.mobile-nav-open .amp-logo {
@@ -670,11 +657,11 @@
     }
 
     .mobile-nav-presented {
-        @apply mt-auto flex flex-col items-start gap-2 text-[10px] font-normal text-[#25232b];
+        @apply mt-auto flex flex-col items-start gap-3 text-[11px] font-normal text-[#25232b];
     }
 
     .mobile-nav-presented img {
-        @apply h-auto w-[118px];
+        @apply h-auto w-[165px];
     }
 
     .amp-home {
@@ -762,13 +749,13 @@
     }
 
     body.page-home .amp-home__presented {
-        @apply static flex text-[10px] font-normal;
+        @apply static flex text-[11px] font-normal;
         order: 5;
-        @apply mt-auto gap-1.5 pt-24;
+        @apply mt-auto gap-3 pt-24;
     }
 
     body.page-home .amp-home__presented img {
-        @apply w-[172px];
+        @apply w-[165px];
     }
 
     .amp-panel {
@@ -947,11 +934,11 @@
     }
 
     .mobile-nav-presented img {
-        @apply w-[112px];
+        @apply w-[165px];
     }
 
     body.page-home .amp-home__presented img {
-        @apply w-[160px];
+        @apply w-[165px];
     }
 
     .amp-home__headline,

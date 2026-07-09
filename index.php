@@ -59,7 +59,7 @@
         </filter>
     </svg>
     <div id="page">
-        <div id="main-content-container" class="container video-background" aria-hidden="true">
+        <div id="main-content-container" class="video-background" aria-hidden="true">
             <div id="background-gabrielle">
                 <video id="background-video" playsinline muted loop preload="none">
                     <source data-src="/media/video/AMP-26-Visual-Gold.mp4" type="video/mp4">
