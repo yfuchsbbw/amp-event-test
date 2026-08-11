@@ -1,3 +1,16 @@
+<script>
+    (() => {
+        const page = window.location.hash.replace('#', '');
+
+        if (['home', 'programm', 'speaker', 'location'].includes(page)) {
+            document.body.classList.add(`page-${page}`);
+            return;
+        }
+
+        document.body.classList.add('page-home');
+    })();
+</script>
+
 <header class="site-header">
     <a href="#home" class="amp-logo nav-l-home nav-r-home normal" aria-label="AMP Event Home">
         <div id="logo-animated" class="logo main-logo"></div>
@@ -18,9 +31,8 @@
         <div class="mobile-nav-presented">
             <span>präsentiert von</span>
             <span class="presented-logo">
-                <img src="/media/img/sulser_twofold_logo.svg" alt="Sulser & Partner und twofold">
-                <a class="presented-logo__link presented-logo__link--sulser" href="https://www.sulserpartner.ch/" target="_blank" rel="noopener noreferrer" aria-label="Sulser & Partner Webseite"></a>
-                <a class="presented-logo__link presented-logo__link--twofold" href="https://twofold.swiss/" target="_blank" rel="noopener noreferrer" aria-label="twofold Webseite"></a>
+                <img class="presented-logo__mark presented-logo__mark--sulser" src="/media/img/Sulser_Logo.svg" alt="Sulser & Partner">
+                <img class="presented-logo__mark presented-logo__mark--twofold" src="/media/img/twofold-pos-rgb.png" alt="twofold">
             </span>
         </div>
     </nav>
@@ -41,10 +53,13 @@
 
         <div class="amp-home__presented">
             <span>präsentiert von</span>
-            <span class="presented-logo">
-                <img src="/media/img/sulser_twofold_logo.svg" alt="Sulser & Partner und twofold">
-                <a class="presented-logo__link presented-logo__link--sulser" href="https://www.sulserpartner.ch/" target="_blank" rel="noopener noreferrer" aria-label="Sulser & Partner Webseite"></a>
-                <a class="presented-logo__link presented-logo__link--twofold" href="https://twofold.swiss/" target="_blank" rel="noopener noreferrer" aria-label="twofold Webseite"></a>
+            <span class="presented-logo presented-logo--linked">
+                <a class="presented-logo__link" href="https://www.sulserpartner.ch/" target="_blank" rel="noopener noreferrer" aria-label="Sulser & Partner Webseite">
+                    <img class="presented-logo__mark presented-logo__mark--sulser" src="/media/img/Sulser_Logo.svg" alt="Sulser & Partner">
+                </a>
+                <a class="presented-logo__link" href="https://twofold.swiss/" target="_blank" rel="noopener noreferrer" aria-label="twofold Webseite">
+                    <img class="presented-logo__mark presented-logo__mark--twofold" src="/media/img/twofold-pos-rgb.png" alt="twofold">
+                </a>
             </span>
         </div>
     </section>
@@ -71,10 +86,13 @@
 
         <div class="amp-home__presented amp-panel__presented">
             <span>präsentiert von</span>
-            <span class="presented-logo">
-                <img src="/media/img/sulser_twofold_logo.svg" alt="Sulser & Partner und twofold">
-                <a class="presented-logo__link presented-logo__link--sulser" href="https://www.sulserpartner.ch/" target="_blank" rel="noopener noreferrer" aria-label="Sulser & Partner Webseite"></a>
-                <a class="presented-logo__link presented-logo__link--twofold" href="https://twofold.swiss/" target="_blank" rel="noopener noreferrer" aria-label="twofold Webseite"></a>
+            <span class="presented-logo presented-logo--linked">
+                <a class="presented-logo__link" href="https://www.sulserpartner.ch/" target="_blank" rel="noopener noreferrer" aria-label="Sulser & Partner Webseite">
+                    <img class="presented-logo__mark presented-logo__mark--sulser" src="/media/img/Sulser_Logo.svg" alt="Sulser & Partner">
+                </a>
+                <a class="presented-logo__link" href="https://twofold.swiss/" target="_blank" rel="noopener noreferrer" aria-label="twofold Webseite">
+                    <img class="presented-logo__mark presented-logo__mark--twofold" src="/media/img/twofold-pos-rgb.png" alt="twofold">
+                </a>
             </span>
         </div>
     </section>
@@ -89,10 +107,13 @@
 
         <div class="amp-home__presented amp-panel__presented">
             <span>präsentiert von</span>
-            <span class="presented-logo">
-                <img src="/media/img/sulser_twofold_logo.svg" alt="Sulser & Partner und twofold">
-                <a class="presented-logo__link presented-logo__link--sulser" href="https://www.sulserpartner.ch/" target="_blank" rel="noopener noreferrer" aria-label="Sulser & Partner Webseite"></a>
-                <a class="presented-logo__link presented-logo__link--twofold" href="https://twofold.swiss/" target="_blank" rel="noopener noreferrer" aria-label="twofold Webseite"></a>
+            <span class="presented-logo presented-logo--linked">
+                <a class="presented-logo__link" href="https://www.sulserpartner.ch/" target="_blank" rel="noopener noreferrer" aria-label="Sulser & Partner Webseite">
+                    <img class="presented-logo__mark presented-logo__mark--sulser" src="/media/img/Sulser_Logo.svg" alt="Sulser & Partner">
+                </a>
+                <a class="presented-logo__link" href="https://twofold.swiss/" target="_blank" rel="noopener noreferrer" aria-label="twofold Webseite">
+                    <img class="presented-logo__mark presented-logo__mark--twofold" src="/media/img/twofold-pos-rgb.png" alt="twofold">
+                </a>
             </span>
         </div>
     </section>
@@ -103,20 +124,46 @@
     </section>
 
     <section id="nav-l-location" class="left-bar amp-location-media">
-        <img src="/media/img/location.jpg" alt="Gottlieb Duttweiler Institute">
+        <img src="/media/img/location.jpg" width="2405" height="1600" alt="Gottlieb Duttweiler Institute">
         <p class="amp-panel__eyebrow">Location</p>
         <h2>Gottlieb Duttweiler Institute</h2>
         <p>Langhaldenstrasse 21, 8803 Rüschlikon. Türöffnung ab 12 Uhr, Beginn der Referate ab 13 Uhr.</p>
+        <div class="amp-home__presented amp-panel__presented">
+            <span>präsentiert von</span>
+            <span class="presented-logo presented-logo--linked">
+                <a class="presented-logo__link" href="https://www.sulserpartner.ch/" target="_blank" rel="noopener noreferrer" aria-label="Sulser & Partner Webseite">
+                    <img class="presented-logo__mark presented-logo__mark--sulser" src="/media/img/Sulser_Logo.svg" alt="Sulser & Partner">
+                </a>
+                <a class="presented-logo__link" href="https://twofold.swiss/" target="_blank" rel="noopener noreferrer" aria-label="twofold Webseite">
+                    <img class="presented-logo__mark presented-logo__mark--twofold" src="/media/img/twofold-pos-rgb.png" alt="twofold">
+                </a>
+            </span>
+        </div>
     </section>
 
     <section id="nav-r-location" class="right-bar amp-panel amp-panel--location-detail">
-        <img src="/media/img/location.jpg" alt="Gottlieb Duttweiler Institute">
-        <a href="#home" class="location-back nav-l-home nav-r-home" aria-label="Zurueck zur Startseite">←</a>
+        <img src="/media/img/location.jpg" width="2405" height="1600" alt="Gottlieb Duttweiler Institute">
+        <a href="#home" class="location-back nav-l-home nav-r-home" aria-label="Zurück zur Startseite">
+            <svg viewBox="0 0 24 24" fill="none" aria-hidden="true" focusable="false">
+                <path d="M6 12H18M6 12L11 7M6 12L11 17" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path>
+            </svg>
+        </a>
         <h2>GDI Gottlieb<br>Duttweiler Institute</h2>
-        <p>Das Gottlieb Duttweiler Institut (GDI) ist ein unabhaengiger Think Tank in Wirtschaft, Gesellschaft und Konsum. Das Trendforschungsinstitut mit Sitz in Rueschlikon bei Zuerich ist die aelteste Denkfabrik der Schweiz. Das GDI ist Teil der Stiftung Im Gruene.</p>
+        <p>Das Gottlieb Duttweiler Institut (GDI) ist ein unabhängiger Think Tank in Wirtschaft, Gesellschaft und Konsum. Das Trendforschungsinstitut mit Sitz in Rüschlikon bei Zürich ist die älteste Denkfabrik der Schweiz. Das GDI ist Teil der Stiftung «Im Grüene».</p>
         <div class="location-links">
             <a href="https://www.gdi.ch" target="_blank" rel="noopener noreferrer">Webseite</a>
             <a href="https://www.google.com/maps/place/GDI+Gottlieb+Duttweiler+Institute/@47.302246,8.5499481,17z/data=!3m1!4b1!4m6!3m5!1s0x479aa7c6a3636563:0x69901feb0b0794d4!8m2!3d47.302246!4d8.552523!16s%2Fm%2F047g8sy?entry=tts" target="_blank" rel="noopener noreferrer">Google Maps</a>
+        </div>
+        <div class="amp-home__presented amp-location-detail__presented">
+            <span>präsentiert von</span>
+            <span class="presented-logo presented-logo--linked">
+                <a class="presented-logo__link" href="https://www.sulserpartner.ch/" target="_blank" rel="noopener noreferrer" aria-label="Sulser & Partner Webseite">
+                    <img class="presented-logo__mark presented-logo__mark--sulser" src="/media/img/Sulser_Logo.svg" alt="Sulser & Partner">
+                </a>
+                <a class="presented-logo__link" href="https://twofold.swiss/" target="_blank" rel="noopener noreferrer" aria-label="twofold Webseite">
+                    <img class="presented-logo__mark presented-logo__mark--twofold" src="/media/img/twofold-pos-rgb.png" alt="twofold">
+                </a>
+            </span>
         </div>
     </section>
 

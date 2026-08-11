@@ -1,25 +1,31 @@
 export function initVideo() {
     const desktopVideo = document.querySelector('#background-video');
     const mobileVideo = document.querySelector('#background-video-mobile');
+    const allVideos = [desktopVideo, mobileVideo].filter(Boolean);
 
-    if (!desktopVideo && !mobileVideo) {
+    if (!allVideos.length) {
         return;
     }
 
     const mobileQuery = window.matchMedia('(max-width: 768px)');
     let activeVideo = null;
+    setSafariClass();
 
     const activateVideo = () => {
-        const nextVideo = mobileQuery.matches ? mobileVideo : desktopVideo;
+        const isMobile = mobileQuery.matches;
+        const nextVideo = isMobile ? mobileVideo : desktopVideo;
 
         if (!nextVideo || nextVideo === activeVideo) {
             return;
         }
 
-        pauseVideo(activeVideo);
+        allVideos
+            .filter((video) => video !== nextVideo)
+            .forEach(pauseVideo);
+
         activeVideo = nextVideo;
         loadVideoSource(activeVideo);
-        videoStart(activeVideo, mobileQuery.matches ? 1.8 : 1);
+        videoStart(activeVideo, isMobile ? null : 1);
     };
 
     mobileQuery.addEventListener('change', activateVideo);
@@ -29,10 +35,12 @@ export function initVideo() {
             return;
         }
 
-        videoStart(activeVideo);
+        videoStart(activeVideo, null);
     });
 
-    activateVideo();
+    requestAnimationFrame(() => {
+        requestAnimationFrame(activateVideo);
+    });
 }
 
 export function videoStart(video, startTime = 0) {
@@ -41,7 +49,7 @@ export function videoStart(video, startTime = 0) {
     }
 
     try {
-        if (Number.isFinite(video.duration) && video.duration > startTime) {
+        if (Number.isFinite(startTime) && Number.isFinite(video.duration) && video.duration > startTime) {
             video.currentTime = startTime;
         }
 
@@ -65,12 +73,20 @@ function loadVideoSource(video) {
     }
 
     source.src = source.dataset.src;
-    video.preload = window.matchMedia('(max-width: 768px)').matches ? 'metadata' : 'auto';
+    video.preload = 'auto';
     video.load();
 }
 
 function pauseVideo(video) {
     if (video && !video.paused) {
         video.pause();
+    }
+}
+
+function setSafariClass() {
+    const isSafari = /^((?!chrome|android).)*safari/i.test(navigator.userAgent);
+
+    if (isSafari) {
+        document.documentElement.classList.add('is-safari');
     }
 }

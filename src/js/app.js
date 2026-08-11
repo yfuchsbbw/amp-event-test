@@ -6,15 +6,14 @@ import { initNavigation } from './modules/navigation.js';
 import { initVideo } from './modules/video.js';
 import { initAnimations } from './modules/animations.js';
 
-document.addEventListener('DOMContentLoaded', async () => {
-
-    await waitForFonts();
-    await initProgram();
-    await initSpeakers();
-
-    initAnimations();
+document.addEventListener('DOMContentLoaded', () => {
     initVideo();
+    initAnimations();
     initNavigation();
+
+    waitForFonts();
+    initProgram();
+    initSpeakers();
 });
 
 async function waitForFonts() {

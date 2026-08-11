@@ -4,6 +4,25 @@ import { escapeAttribute, escapeHtml, slugify } from '../core/helpers.js';
 let imageSwapTimeline = null;
 let floatingImageQuickX = null;
 let floatingImageQuickY = null;
+let floatingImageRequestId = 0;
+let resetSpeakerProfileState = null;
+let resetSpeakerProfileDelayCall = null;
+const preloadedSpeakerImages = new Set();
+
+export function resetSpeakerProfile({ delay = 0 } = {}) {
+    resetSpeakerProfileDelayCall?.kill();
+    resetSpeakerProfileDelayCall = null;
+
+    if (delay > 0 && document.body.classList.contains('speaker-profile-open')) {
+        resetSpeakerProfileDelayCall = gsap.delayedCall(delay, () => {
+            resetSpeakerProfileDelayCall = null;
+            resetSpeakerProfileState?.();
+        });
+        return;
+    }
+
+    resetSpeakerProfileState?.();
+}
 
 export function renderSpeakers(speakers, archiveSpeakers = []) {
     if (!Array.isArray(speakers) || speakers.length === 0) {
@@ -23,6 +42,35 @@ export function renderSpeakers(speakers, archiveSpeakers = []) {
     const initialSpeakerIntro = speakerIntro?.innerHTML || '';
     let activeSpeakers = speakers;
     let activeYear = '2026';
+
+    resetSpeakerProfileState = () => {
+        if (!document.body.classList.contains('speaker-profile-open')) {
+            return;
+        }
+
+        gsap.killTweensOf([detail, list, speakerIntro]);
+        document.body.classList.remove('speaker-profile-open');
+        speakerPanel?.classList.remove('is-profile');
+
+        activeYear = '2026';
+        activeSpeakers = speakers;
+
+        if (speakerIntro) {
+            speakerIntro.innerHTML = initialSpeakerIntro;
+            gsap.set(speakerIntro, { autoAlpha: 1, y: 0 });
+        }
+
+        if (list) {
+            list.hidden = false;
+            renderSpeakerList(list, activeSpeakers);
+            bindSpeakerCards(list, activeSpeakers, floatingImage);
+            gsap.set(list, { autoAlpha: 1, y: 0, opacity: 1 });
+        }
+
+        renderSpeakerDetail(detail, activeYear);
+        gsap.set(detail, { autoAlpha: 1, y: 0 });
+        hideFloatingImage(floatingImage);
+    };
 
     renderSpeakerDetail(detail, activeYear);
     renderSpeakerList(list, activeSpeakers);
@@ -110,6 +158,8 @@ function openSpeakerProfile({ speaker, detail, list, speakerIntro, speakerPanel,
         return;
     }
 
+    resetSpeakerProfileDelayCall?.kill();
+    resetSpeakerProfileDelayCall = null;
     hideFloatingImage(floatingImage);
     gsap.killTweensOf([detail, list, speakerIntro]);
     gsap.to([detail, list, speakerIntro], {
@@ -196,7 +246,11 @@ function createSpeakerProfile(speaker) {
 
     return `
         <article class="speaker-profile">
-            <button type="button" class="speaker-profile__back" data-speaker-back aria-label="Zurueck zur Speakerliste">←</button>
+            <button type="button" class="speaker-profile__back" data-speaker-back aria-label="Zurück zur Speakerliste">
+                <svg viewBox="0 0 24 24" fill="none" aria-hidden="true" focusable="false">
+                    <path d="M6 12H18M6 12L11 7M6 12L11 17" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path>
+                </svg>
+            </button>
             <p class="speaker-profile__role">${escapeHtml(speaker.role)}</p>
             <h2>${escapeHtml(speaker.name)}</h2>
             <div class="speaker-profile__bio">
@@ -207,7 +261,11 @@ function createSpeakerProfile(speaker) {
                     ${links.map((link) => `
                         <a href="${escapeAttribute(link.href)}" target="_blank" rel="noopener noreferrer">
                             ${escapeHtml(link.label)}
-                            <span class="speaker-profile__link-arrow" aria-hidden="true">↗</span>
+                            <span class="speaker-profile__link-arrow" aria-hidden="true">
+                                <svg viewBox="0 0 24 24" fill="none" focusable="false">
+                                    <path d="M7 17L17 7M17 7H8M17 7V16" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path>
+                                </svg>
+                            </span>
                         </a>
                     `).join('')}
                 </div>
@@ -262,7 +320,11 @@ function createSpeakerCard(speaker) {
         <button type="button" class="speaker-card speaker-link add-follow-img hide-overflow" data-id="${escapeAttribute(speakerId)}" data-img="${escapeAttribute(imagePath)}">
             <span class="name">${escapeHtml(speaker.name)}</span>
             <span class="description">${escapeHtml(speaker.role)}</span>
-            <span class="speaker-card__arrow" aria-hidden="true">&nearr;</span>
+            <span class="speaker-card__arrow" aria-hidden="true">
+                <svg viewBox="0 0 24 24" fill="none" focusable="false">
+                    <path d="M7 17L17 7M17 7H8M17 7V16" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path>
+                </svg>
+            </span>
         </button>
     `;
 }
@@ -327,49 +389,57 @@ function showFloatingImage(image, speaker, event, immediate = false) {
 function setFloatingImageSource(image, imagePath) {
     const currentImagePath = image.getAttribute('src');
     const imageChanged = currentImagePath !== imagePath;
-    const wasVisible = gsap.getProperty(image, 'autoAlpha') > 0.05;
 
     imageSwapTimeline?.kill();
     imageSwapTimeline = null;
+    gsap.killTweensOf(image);
 
     if (!imageChanged) {
         gsap.to(image, {
-            duration: 0.18,
+            duration: 0.16,
             autoAlpha: 1,
+            scale: 1,
             ease: 'power2.out',
             overwrite: 'auto',
         });
         return;
     }
 
-    if (!wasVisible) {
-        image.src = imagePath;
-        gsap.to(image, {
-            duration: 0.18,
+    const requestId = ++floatingImageRequestId;
+    image.dataset.requestedSrc = imagePath;
+    image.onload = null;
+    image.onerror = null;
+    image.removeAttribute('src');
+    gsap.set(image, { autoAlpha: 0, scale: 0.985 });
+
+    const revealLatestImage = () => {
+        if (requestId !== floatingImageRequestId || image.dataset.requestedSrc !== imagePath) {
+            return;
+        }
+
+        imageSwapTimeline = gsap.to(image, {
+            duration: 0.24,
             autoAlpha: 1,
+            scale: 1,
             ease: 'power2.out',
             overwrite: 'auto',
+            onComplete: () => {
+                imageSwapTimeline = null;
+            },
         });
-        return;
-    }
+    };
 
-    imageSwapTimeline = gsap.timeline({
-        defaults: { overwrite: 'auto' },
-        onComplete: () => {
-            imageSwapTimeline = null;
-        },
-    })
-        .to(image, {
-            duration: 0.14,
-            autoAlpha: 0,
-            ease: 'power2.out',
-        })
-        .set(image, { attr: { src: imagePath } })
-        .to(image, {
-            duration: 0.22,
-            autoAlpha: 1,
-            ease: 'power2.out',
-        });
+    image.onload = revealLatestImage;
+    image.onerror = () => {
+        if (requestId === floatingImageRequestId) {
+            hideFloatingImage(image);
+        }
+    };
+    image.src = imagePath;
+
+    if (image.complete && image.naturalWidth > 0) {
+        revealLatestImage();
+    }
 }
 
 function moveFloatingImage(image, event) {
@@ -421,6 +491,9 @@ function hideFloatingImage(image) {
 
     imageSwapTimeline?.kill();
     imageSwapTimeline = null;
+    floatingImageRequestId += 1;
+    image.onload = null;
+    image.onerror = null;
     resetFloatingImageQuickTo();
 
     image.dataset.visible = 'false';
@@ -432,6 +505,22 @@ function hideFloatingImage(image) {
         ease: 'power2.out',
         overwrite: 'auto',
     });
+}
+
+function preloadSpeakerImages(speakers) {
+    speakers
+        .map((speaker) => getImagePath(speaker.image))
+        .filter(Boolean)
+        .forEach((imagePath) => {
+            if (preloadedSpeakerImages.has(imagePath)) {
+                return;
+            }
+
+            preloadedSpeakerImages.add(imagePath);
+            const image = new Image();
+            image.decoding = 'async';
+            image.src = imagePath;
+        });
 }
 
 function setActiveCard(cards, activeCard) {

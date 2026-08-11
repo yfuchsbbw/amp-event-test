@@ -100,31 +100,28 @@
     @apply absolute bottom-12 left-10 flex flex-col items-start gap-3 text-[11px] font-normal;
 }
 
-.amp-home__presented img {
-    @apply h-auto w-[165px];
-}
-
 .presented-logo {
-    @apply relative inline-block;
+    @apply inline-flex items-end;
+    gap: 10px;
     line-height: 0;
 }
 
-.presented-logo img {
+.presented-logo__mark {
     @apply block;
+    height: auto;
+    max-width: none;
+}
+
+.presented-logo__mark--sulser {
+    width: 100px;
+}
+
+.presented-logo__mark--twofold {
+    width: 63px;
 }
 
 .presented-logo__link {
-    @apply absolute top-0 bottom-0 no-underline outline-none;
-}
-
-.presented-logo__link--sulser {
-    left: 0;
-    width: 58%;
-}
-
-.presented-logo__link--twofold {
-    right: 0;
-    width: 36%;
+    @apply inline-flex no-underline outline-none;
 }
 
 .amp-home__right {
@@ -214,15 +211,80 @@
 }
 
 .program-item {
-    @apply grid cursor-default grid-cols-[minmax(0,1fr)_auto] items-end gap-6 border-b border-black pb-1 text-black;
+    @apply overflow-visible border-b border-black pb-1 text-black;
+}
+
+.program-item__content {
+    @apply grid w-full cursor-default grid-cols-1 gap-1 overflow-visible border-0 bg-transparent p-0 text-left text-black no-underline outline-none;
+    font-family: inherit;
+}
+
+.program-item--referat .program-item__content {
+    @apply cursor-pointer;
+}
+
+.program-hover-cursor {
+    @apply pointer-events-none fixed left-0 top-0 z-50 h-[70px] w-[70px] text-black opacity-0;
+    transition: opacity 0.6s ease, transform 0.18s ease-out;
+    will-change: transform, opacity;
+}
+
+.is-mac-desktop .program-hover-cursor {
+    transition: opacity 0.6s ease;
+}
+
+.program-hover-cursor.is-visible {
+    @apply opacity-100;
+}
+
+.program-hover-cursor svg {
+    @apply h-full w-full;
 }
 
 .program-item time {
-    @apply text-[24px] font-normal leading-none;
+    @apply row-start-2 overflow-visible text-[22px] font-normal leading-[1.12];
 }
 
 .program-item span {
-    @apply text-[24px] font-normal leading-none;
+    @apply row-start-1 block min-w-0 overflow-visible whitespace-nowrap font-normal leading-[1.12];
+    font-size: clamp(28px, 1.75vw, 36px);
+}
+
+.program-detail {
+    @apply hidden text-black;
+}
+
+.program-detail:not([hidden]) {
+    @apply block;
+}
+
+.program-detail__back {
+    @apply mb-10 block cursor-pointer border-0 bg-transparent p-0 text-black;
+}
+
+.program-detail__back svg {
+    @apply h-11 w-11;
+}
+
+.program-detail__time {
+    @apply mb-2 text-[24px] font-normal leading-none;
+}
+
+.program-detail h2 {
+    @apply max-w-[980px] text-[48px] font-normal leading-[1.04] tracking-[-0.02em];
+}
+
+.program-detail__list {
+    @apply mt-14 m-0 list-none p-0;
+}
+
+.program-detail__list li {
+    @apply border-b border-black pb-1 pt-5 text-[24px] font-normal leading-none;
+}
+
+.program-detail__list span,
+.program-detail__list small {
+    @apply block text-[24px] font-normal leading-none;
 }
 
 .amp-panel--speakers {
@@ -286,7 +348,11 @@
 }
 
 .speaker-card__arrow {
-    @apply block text-right text-[40px] font-normal leading-[0.76];
+    @apply block justify-self-end text-black;
+}
+
+.speaker-card__arrow svg {
+    @apply h-9 w-9;
 }
 
 .speaker-hover-image {
@@ -321,7 +387,11 @@
 }
 
 .speaker-profile__back {
-    @apply mb-10 cursor-pointer border-0 bg-transparent p-0 text-[36px] font-normal leading-none text-black;
+    @apply mb-10 block cursor-pointer border-0 bg-transparent p-0 text-black;
+}
+
+.speaker-profile__back svg {
+    @apply h-11 w-11;
 }
 
 .speaker-profile__role {
@@ -359,18 +429,22 @@
 }
 
 .speaker-profile__link-arrow {
-    @apply inline-block text-[1.15em] leading-none;
+    @apply inline-block text-black;
+}
+
+.speaker-profile__link-arrow svg {
+    @apply h-[1.05em] w-[1.05em];
 }
 
 .amp-location-media {
     @apply z-10 min-h-screen w-[45vw] overflow-hidden p-0;
 }
 
-.amp-location-media > :not(img) {
+.amp-location-media > :not(img):not(.amp-panel__presented) {
     @apply hidden;
 }
 
-.amp-location-media img {
+.amp-location-media > img {
     @apply h-screen w-full object-cover grayscale;
     filter: grayscale(1) sepia(0.18) brightness(1.04);
 }
@@ -383,8 +457,16 @@
     @apply hidden;
 }
 
+.amp-location-detail__presented {
+    @apply hidden;
+}
+
 .location-back {
-    @apply mb-10 block w-fit text-[36px] font-normal leading-none;
+    @apply mb-10 block w-fit text-black;
+}
+
+.location-back svg {
+    @apply h-11 w-11;
 }
 
 .amp-panel--location-detail h2 {
@@ -409,14 +491,6 @@
     @apply no-underline text-inherit outline-none;
 }
 
-.page-programm #background-gabrielle {
-    @apply opacity-100;
-}
-
-.page-programm .site-header {
-    @apply py-10;
-}
-
 .amp-panel--program-intro {
     @apply max-w-none pt-[235px];
 }
@@ -434,13 +508,14 @@
     @apply bottom-[84px] left-auto right-10 top-auto flex min-h-0 w-[62vw] flex-col px-0 pb-0 pt-0;
 }
 
-.amp-panel--program-intro .amp-panel__presented {
-    @apply bottom-12;
+.program-detail-open .amp-panel--program-list {
+    @apply bottom-auto;
+    top: clamp(360px, 42vh, 500px);
 }
 
 @media (min-width: 1025px) {
     .amp-home {
-        --home-x: clamp(32px, 3vw, 64px);
+        --home-x: clamp(32px, 3vw, 34px);
         --home-lower-y: clamp(500px, 53vh, 720px);
     }
 
@@ -495,10 +570,6 @@
         left: var(--home-x);
     }
 
-    .amp-home__presented img {
-        width: 165px;
-    }
-
     .amp-home__date {
         bottom: auto;
         left: clamp(820px, 68vw, 1320px);
@@ -540,6 +611,15 @@
         right: clamp(24px, 2.1vw, 40px);
     }
 
+    .program-detail-open .amp-panel--program-list {
+        bottom: auto;
+        top: clamp(360px, 42vh, 480px);
+    }
+
+    .is-mac-desktop .program-detail-open .amp-panel--program-list {
+        top: clamp(170px, 25.5vh, 270px);
+    }
+
     .program-download {
         min-width: clamp(260px, 23vw, 320px);
         height: clamp(40px, 2.4vw, 46px);
@@ -551,9 +631,35 @@
     }
 
     .program-item span,
-    .program-item time,
     .speaker-card .name {
-        font-size: clamp(19px, 1.25vw, 24px);
+        font-size: clamp(23px, 1.46vw, 28px);
+    }
+
+    .program-item time {
+        font-size: clamp(16px, 1.05vw, 22px);
+    }
+
+    .program-detail__time,
+    .program-detail__list li,
+    .program-detail__list span,
+    .program-detail__list small {
+        font-size: clamp(18px, 1.34vw, 26px);
+    }
+
+    .program-detail__back {
+        transform: translate(-7px, -12px);
+    }
+
+    .is-mac-desktop .program-detail__list li {
+        padding-bottom: 2px;
+    }
+
+    .is-mac-desktop .program-detail__back {
+        transform: translate(-8px, 34px);
+    }
+
+    .program-detail h2 {
+        font-size: clamp(34px, 2.65vw, 52px);
     }
 
     .amp-panel--location-detail {
@@ -589,19 +695,30 @@
         @apply overflow-hidden;
     }
 
+    .left-bar,
+    .right-bar {
+        contain: layout style;
+    }
+
     #page {
         min-height: 100svh;
         overflow-x: hidden;
         overflow-y: visible;
     }
 
+    body.page-location #page {
+        height: 100svh;
+        overflow: hidden;
+    }
+
     .site-header {
-        @apply flex-row items-start px-10 py-7;
+        @apply flex-row items-start py-7 pl-7 pr-10;
         background: transparent;
     }
 
     .amp-logo {
         @apply relative z-40;
+        width: clamp(160px, 40vw, 200px);
     }
 
     body.mobile-nav-open .amp-logo {
@@ -630,7 +747,7 @@
     }
 
     #main-nav {
-        @apply invisible fixed inset-0 z-30 flex translate-y-[-8px] flex-col bg-[#c69c6d] px-5 pb-10 pt-[220px] opacity-0 transition-all duration-300;
+        @apply invisible fixed inset-0 z-30 flex translate-y-[-8px] flex-col bg-[#c69c6d] px-10 pb-5 pt-[220px] opacity-0 transition-all duration-300;
         pointer-events: none;
     }
 
@@ -660,8 +777,16 @@
         @apply mt-auto flex flex-col items-start gap-3 text-[11px] font-normal text-[#25232b];
     }
 
-    .mobile-nav-presented img {
-        @apply h-auto w-[165px];
+    .presented-logo {
+        gap: 8px;
+    }
+
+    .presented-logo__mark--sulser {
+        width: 86px;
+    }
+
+    .presented-logo__mark--twofold {
+        width: 54px;
     }
 
     .amp-home {
@@ -754,10 +879,6 @@
         @apply mt-auto gap-3 pt-24;
     }
 
-    body.page-home .amp-home__presented img {
-        @apply w-[165px];
-    }
-
     .amp-panel {
         @apply min-h-0 w-full px-0 pb-0 pt-0;
     }
@@ -776,7 +897,7 @@
     .amp-panel--program-intro h2 {
         @apply max-w-[850px];
         font-size: clamp(42px, 10vw, 78px);
-        line-height: 0.98;
+        line-height: 1.06;
         letter-spacing: -0.04em;
         overflow-wrap: anywhere;
     }
@@ -785,8 +906,19 @@
         @apply mt-6 max-w-[620px] text-[18px];
     }
 
+    .amp-panel--speakers h1 {
+        line-height: 1.14;
+        padding-bottom: 0.16em;
+        overflow: visible;
+    }
+
     .program-download {
         @apply mt-8 h-11 w-full min-w-0 self-stretch px-6 text-[18px];
+    }
+
+    .program-detail-open .amp-panel--program-list {
+        @apply mt-12;
+        top: auto;
     }
 
     .amp-panel--program-list,
@@ -800,13 +932,42 @@
         @apply gap-5;
     }
 
-    .program-item {
-        @apply grid-cols-[minmax(0,1fr)_auto] gap-4;
+    .program-item__content {
+        @apply grid-cols-1 gap-1;
     }
 
-    .program-item span,
+    .program-item span {
+        @apply overflow-visible whitespace-normal text-[22px] leading-[1.12];
+    }
+
     .program-item time {
-        @apply text-[18px] leading-[1.1];
+        @apply row-start-2 text-[15px] leading-[1.1];
+    }
+
+    .program-detail__back {
+        @apply mb-8;
+    }
+
+    .program-detail__back svg {
+        @apply h-9 w-9;
+    }
+
+    .program-detail__time {
+        @apply text-[18px];
+    }
+
+    .program-detail h2 {
+        @apply text-[34px] leading-[1.04];
+    }
+
+    .program-detail__list {
+        @apply mt-9;
+    }
+
+    .program-detail__list li,
+    .program-detail__list span,
+    .program-detail__list small {
+        @apply text-[18px] leading-[1.15];
     }
 
     #speaker-detail {
@@ -834,7 +995,11 @@
     }
 
     .speaker-card__arrow {
-        @apply col-start-2 row-span-2 row-start-1 self-center text-[31px];
+        @apply col-start-2 row-span-2 row-start-1 self-center;
+    }
+
+    .speaker-card__arrow svg {
+        @apply h-7 w-7;
     }
 
     .speaker-hover-image {
@@ -858,11 +1023,15 @@
     }
 
     .speaker-profile {
-        @apply max-w-none;
+        @apply flex max-w-none flex-col;
     }
 
     .speaker-profile__back {
-        @apply mb-8 text-[28px];
+        @apply order-last mb-0 mt-10;
+    }
+
+    .speaker-profile__back svg {
+        @apply h-9 w-9;
     }
 
     .speaker-profile__role {
@@ -885,7 +1054,7 @@
         @apply relative inset-auto mt-8 min-h-0 w-full;
     }
 
-    .amp-location-media img {
+    .amp-location-media > img {
         @apply h-[42svh] min-h-[280px] w-full object-cover;
     }
 
@@ -894,7 +1063,11 @@
     }
 
     .location-back {
-        @apply mb-8 text-[28px];
+        @apply mb-8;
+    }
+
+    .location-back svg {
+        @apply h-9 w-9;
     }
 
     .amp-panel--location-detail h2 {
@@ -910,19 +1083,106 @@
     .location-links {
         @apply mt-9 flex gap-10 text-[18px];
     }
+
+    body.page-location .amp-home {
+        @apply px-0 pb-0 pt-0;
+        --location-mobile-image-height: clamp(210px, 28svh, 270px);
+        overflow: hidden;
+        height: 100svh;
+        min-height: 100svh;
+    }
+
+    body.page-location .amp-location-media {
+        @apply mt-0;
+    }
+
+    body.page-location #nav-l-location {
+        @apply relative inset-auto block w-full opacity-100 pointer-events-auto;
+    }
+
+    body.page-location #nav-r-location {
+        @apply relative inset-auto flex w-full opacity-100 pointer-events-auto;
+    }
+
+    body.page-location #nav-l-home,
+    body.page-location #nav-r-home {
+        @apply hidden opacity-0 pointer-events-none;
+    }
+
+    body.page-location .amp-location-media > img {
+        @apply block w-full;
+        aspect-ratio: 2405 / 1600;
+        height: var(--location-mobile-image-height);
+        min-height: 0;
+        object-position: center top;
+    }
+
+    body.page-location .amp-location-media .amp-panel__presented {
+        @apply hidden;
+    }
+
+    body.page-location .amp-panel--location-detail {
+        @apply relative mt-0 flex px-9 pb-6 pt-[64px];
+        height: calc(100svh - var(--location-mobile-image-height));
+        min-height: 0;
+        overflow-x: hidden;
+        overflow-y: auto;
+        -webkit-overflow-scrolling: touch;
+    }
+
+    body.page-location .location-back {
+        @apply hidden;
+    }
+
+    body.page-location .location-back svg {
+        @apply h-9 w-9;
+    }
+
+    body.page-location .amp-panel--location-detail h2 {
+        font-size: clamp(40px, 9.4vw, 46px);
+        line-height: 0.94;
+        letter-spacing: -0.035em;
+    }
+
+    body.page-location .amp-panel--location-detail p {
+        @apply mt-8 text-[15px];
+        max-width: 38ch;
+        line-height: 1.28;
+    }
+
+    body.page-location .location-links {
+        @apply mt-6 gap-12 text-[15px] font-bold;
+    }
+
+    body.page-location .amp-location-detail__presented {
+        @apply static mt-auto flex gap-3 pt-8 text-[11px] font-normal;
+        margin-left: -8px;
+    }
+
+    body.page-location .amp-location-detail__presented .presented-logo {
+        gap: 8px;
+    }
+
+    body.page-location .amp-location-detail__presented .presented-logo__mark--sulser {
+        width: 86px;
+    }
+
+    body.page-location .amp-location-detail__presented .presented-logo__mark--twofold {
+        width: 54px;
+    }
 }
 
 @media (max-width: 480px) {
     .site-header {
-        @apply px-10;
+        @apply pl-8 pr-10;
     }
 
     .amp-home {
-        @apply px-10 pb-4;
+        @apply px-8 pb-4;
     }
 
     #main-nav {
-        @apply pt-[235px];
+        @apply pb-4 pt-[235px];
     }
 
     .navigation {
@@ -931,14 +1191,6 @@
 
     .nav-item {
         font-size: clamp(42px, 12vw, 58px);
-    }
-
-    .mobile-nav-presented img {
-        @apply w-[165px];
-    }
-
-    body.page-home .amp-home__presented img {
-        @apply w-[165px];
     }
 
     .amp-home__headline,
@@ -955,11 +1207,50 @@
         @apply text-[21px];
     }
 
-    .program-item {
+    body.page-location .amp-home {
+        --location-mobile-image-height: clamp(190px, 27svh, 250px);
+    }
+
+    body.page-location .amp-panel--location-detail {
+        @apply px-7 pb-5 pt-[60px];
+    }
+
+    body.page-location .location-back {
+        @apply left-7 top-4;
+    }
+
+    body.page-location .amp-panel--location-detail h2 {
+        font-size: clamp(34px, 8.6vw, 40px);
+    }
+
+    body.page-location .amp-panel--location-detail p {
+        @apply mt-6 text-[14px];
+        line-height: 1.25;
+    }
+
+    body.page-location .location-links {
+        @apply mt-5 gap-10 text-[14px];
+    }
+
+    .program-item__content {
         @apply grid-cols-1 gap-1;
     }
 
     .program-item time {
-        @apply row-start-1 text-[15px];
+        @apply row-start-2 text-[15px];
+    }
+}
+
+@media (max-width: 1024px) {
+    .presented-logo {
+        gap: 7px !important;
+    }
+
+    .presented-logo__mark--sulser {
+        width: 72px !important;
+    }
+
+    .presented-logo__mark--twofold {
+        width: 45px !important;
     }
 }

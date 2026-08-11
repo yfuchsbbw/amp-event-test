@@ -1,6 +1,8 @@
 import { gsap } from 'gsap';
 import { isHumanClick, qsa } from '../core/helpers.js';
 import { state } from '../core/state.js';
+import { resetProgramDetail } from '../ui/programRenderer.js';
+import { resetSpeakerProfile } from '../ui/speakerRenderer.js';
 
 let navigationController = null;
 const SECTION_TRANSITION_DURATION = 0.6;
@@ -19,20 +21,15 @@ export function initNavigation() {
 
 export function changeSection(event, side) {
     const trigger = event.currentTarget;
+    const leftNavClass = getNavigationClass(trigger, 'l');
+    const rightNavClass = getNavigationClass(trigger, 'r');
     const navClass = getNavigationClass(trigger, side);
 
     if (!navClass) {
         return;
     }
 
-    if (side === 'l' && trigger.classList.contains('nav-r-location') && navClass === 'nav-l-location') {
-        event.preventDefault();
-        event.stopImmediatePropagation();
-        event.ampSectionNavigationStarted = true;
-        closeOverlayNavigation();
-        animateSectionChange(trigger, navClass, side);
-        animateSectionChange(trigger, 'nav-r-location', 'r');
-        updateNavigationState(trigger, 'nav-r-location');
+    if (event.ampSectionNavigationStarted) {
         return;
     }
 
@@ -46,21 +43,26 @@ export function changeSection(event, side) {
         return;
     }
 
+    event.preventDefault();
     event.ampSectionNavigationStarted = true;
 
     closeOverlayNavigation();
-    updateLogoColor(trigger, side);
-    updatePageClassBeforeSectionChange(trigger);
+    updateLogoColor(trigger, 'r');
+    resetSpeakerProfileBeforePageChange(rightNavClass, 'r');
+    resetProgramDetailBeforePageChange(rightNavClass, 'r');
 
-    if (isHumanClick(event)) {
-        animateSectionChange(trigger, navClass, side);
-    } else {
-        showSectionInstantly(trigger, navClass, side);
+    const transitionSections = isHumanClick(event) ? animateSectionChange : showSectionInstantly;
+
+    if (leftNavClass) {
+        transitionSections(trigger, leftNavClass, 'l');
     }
 
-    if (side === 'r') {
-        updateNavigationState(trigger, navClass);
+    if (rightNavClass) {
+        transitionSections(trigger, rightNavClass, 'r');
+        updateNavigationState(trigger, rightNavClass);
     }
+
+    updateHash(trigger);
 }
 
 export function changePageOnBody(element, side) {
@@ -86,15 +88,11 @@ export function handleAnchor() {
     const hash = window.location.hash.replace('#', '');
 
     if (!hash) {
-        clickDefaultNavigation();
+        navigateToInitialAnchor('home');
         return;
     }
 
-    const mode = getNavigationModeSelector();
-    const anchor = document.querySelector(`${mode} a[href="#${cssEscape(hash)}"]`);
-
-    if (anchor) {
-        anchor.click();
+    if (navigateToInitialAnchor(hash)) {
         return;
     }
 
@@ -107,16 +105,16 @@ export function handleAnchor() {
         return;
     }
 
-    clickDefaultNavigation();
+    navigateToInitialAnchor('home');
 }
 
 function bindNavigationEvents(signal) {
-    qsa('*[class*="nav-l"]').forEach((element) => {
-        element.addEventListener('click', (event) => changeSection(event, 'l'), { signal });
-    });
+    qsa('*[class*="nav-l"], *[class*="nav-r"]').forEach((element) => {
+        element.addEventListener('click', (event) => {
+            const side = getNavigationClass(element, 'r') ? 'r' : 'l';
 
-    qsa('*[class*="nav-r"]').forEach((element) => {
-        element.addEventListener('click', (event) => changeSection(event, 'r'), { signal });
+            changeSection(event, side);
+        }, { signal });
     });
 
     qsa('*[class*="nav-desc"]').forEach((element) => {
@@ -253,6 +251,11 @@ function animateSectionChange(trigger, navClass, side) {
 }
 
 function animateLeftSection(navClass) {
+    if (isMobileLayout()) {
+        animateLeftSectionSequentially(navClass);
+        return;
+    }
+
     const timeline = gsap.timeline({
         defaults: { duration: SECTION_TRANSITION_DURATION },
         onComplete: () => {
@@ -279,7 +282,40 @@ function animateLeftSection(navClass) {
     });
 }
 
+function animateLeftSectionSequentially(navClass) {
+    const halfDuration = SECTION_TRANSITION_DURATION / 2;
+    const timeline = gsap.timeline({
+        defaults: { duration: halfDuration },
+        onComplete: () => {
+            removeCompletedSectionTimeline(timeline);
+            unlockSectionNavigation();
+        },
+    });
+    sectionTransitionTimelines.push({ side: 'l', timeline });
+
+    getInactiveSections(navClass, 'l').forEach((element) => {
+        timeline
+            .set(element, { willChange: 'opacity' }, 0)
+            .to(element, { autoAlpha: 0, force3D: true, ease: 'power2.inOut' }, 0)
+            .call(() => element.classList.remove('show'), [], halfDuration)
+            .set(element, { willChange: 'auto' }, halfDuration);
+    });
+
+    getActiveSections(navClass).forEach((element) => {
+        timeline
+            .set(element, { willChange: 'opacity', autoAlpha: 0 }, halfDuration)
+            .call(() => element.classList.add('show'), [], halfDuration)
+            .to(element, { autoAlpha: 1, force3D: true, ease: 'power2.inOut' }, halfDuration)
+            .set(element, { willChange: 'auto' }, SECTION_TRANSITION_DURATION);
+    });
+}
+
 function animateRightSection(trigger, navClass, side) {
+    if (isMobileLayout()) {
+        animateRightSectionSequentially(trigger, navClass, side);
+        return;
+    }
+
     const timeline = gsap.timeline({
         defaults: { duration: SECTION_TRANSITION_DURATION },
         onComplete: () => {
@@ -303,6 +339,35 @@ function animateRightSection(trigger, navClass, side) {
             .call(() => element.classList.add('show'), [], 0)
             .call(() => changePageOnBody(trigger, side), [], 0)
             .to(element, { autoAlpha: 1, force3D: true, ease: 'power2.inOut' }, 0)
+            .set(element, { willChange: 'auto' }, SECTION_TRANSITION_DURATION);
+    });
+}
+
+function animateRightSectionSequentially(trigger, navClass, side) {
+    const halfDuration = SECTION_TRANSITION_DURATION / 2;
+    const timeline = gsap.timeline({
+        defaults: { duration: halfDuration },
+        onComplete: () => {
+            removeCompletedSectionTimeline(timeline);
+            unlockSectionNavigation();
+        },
+    });
+    sectionTransitionTimelines.push({ side, timeline });
+
+    getInactiveSections(navClass, 'r').forEach((element) => {
+        timeline
+            .set(element, { willChange: 'opacity' }, 0)
+            .to(element, { autoAlpha: 0, force3D: true, ease: 'power2.inOut' }, 0)
+            .call(() => element.classList.remove('show'), [], halfDuration)
+            .set(element, { willChange: 'auto' }, halfDuration);
+    });
+
+    getActiveSections(navClass).forEach((element) => {
+        timeline
+            .call(() => changePageOnBody(trigger, side), [], halfDuration)
+            .set(element, { willChange: 'opacity', autoAlpha: 0 }, halfDuration)
+            .call(() => element.classList.add('show'), [], halfDuration)
+            .to(element, { autoAlpha: 1, force3D: true, ease: 'power2.inOut' }, halfDuration)
             .set(element, { willChange: 'auto' }, SECTION_TRANSITION_DURATION);
     });
 }
@@ -354,18 +419,39 @@ function updateLogoColor(trigger, side) {
     document.body.classList.toggle('logo-white', trigger.classList.contains('mk-white-logo'));
 }
 
-function updatePageClassBeforeSectionChange(trigger) {
-    const rightNavClass = getNavigationClass(trigger, 'r');
-
-    if (!rightNavClass) {
+function resetSpeakerProfileBeforePageChange(navClass, side) {
+    if (side !== 'r' || !navClass) {
         return;
     }
 
-    const pageName = rightNavClass.replace('nav-r-', '');
+    const nextPage = navClass.replace('nav-r-', '');
 
-    if (pageName === 'programm') {
-        changePageOnBody(trigger, 'r');
+    if (nextPage !== 'speaker') {
+        resetSpeakerProfileAfterSectionTransition();
     }
+}
+
+function resetProgramDetailBeforePageChange(navClass, side) {
+    if (side !== 'r' || !navClass) {
+        return;
+    }
+
+    const nextPage = navClass.replace('nav-r-', '');
+
+    if (nextPage === 'programm') {
+        resetProgramDetail();
+        return;
+    }
+
+    resetProgramDetailAfterSectionTransition();
+}
+
+function resetSpeakerProfileAfterSectionTransition() {
+    resetSpeakerProfile({ delay: SECTION_TRANSITION_DURATION });
+}
+
+function resetProgramDetailAfterSectionTransition() {
+    resetProgramDetail({ delay: SECTION_TRANSITION_DURATION });
 }
 
 function removeBodyPageClasses() {
@@ -393,12 +479,29 @@ function getNavigationModeSelector() {
     return mobileSize.matches && mobileNavigation ? '#mobile-nav nav' : 'header';
 }
 
-function clickDefaultNavigation() {
-    const defaultAnchor = document.querySelector('header a[href="#home"]')
-        || document.querySelector('a.nav-r-home')
-        || document.querySelector('a[href="#home"]');
+function isMobileLayout() {
+    return window.matchMedia('(max-width: 1024px)').matches;
+}
 
-    defaultAnchor?.click();
+function navigateToInitialAnchor(hash) {
+    const mode = getNavigationModeSelector();
+    const anchor = document.querySelector(`${mode} a[href="#${cssEscape(hash)}"]`)
+        || document.querySelector(`header a[href="#${cssEscape(hash)}"]`)
+        || document.querySelector(`a[href="#${cssEscape(hash)}"]`);
+
+    if (!anchor) {
+        return false;
+    }
+
+    const event = {
+        currentTarget: anchor,
+        preventDefault() {},
+        stopImmediatePropagation() {},
+        ampSectionNavigationStarted: false,
+    };
+
+    changeSection(event, getNavigationClass(anchor, 'r') ? 'r' : 'l');
+    return true;
 }
 
 function isBlockedSectionNavigation(event) {
@@ -416,6 +519,16 @@ function isBlockedHomeNavigation(navClass) {
 function blockNavigationEvent(event) {
     event.preventDefault();
     event.stopImmediatePropagation();
+}
+
+function updateHash(trigger) {
+    const hash = trigger.getAttribute('href');
+
+    if (!hash || !hash.startsWith('#') || window.location.hash === hash) {
+        return;
+    }
+
+    window.history.pushState(null, '', hash);
 }
 
 function cancelSectionTransitions(side) {

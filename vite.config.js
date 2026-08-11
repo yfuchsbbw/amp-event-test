@@ -1,4 +1,5 @@
 import { defineConfig } from 'vite';
+import { resolve } from 'node:path';
 
 export default defineConfig({
   cacheDir: 'node_modules/.vite-amp-event-test',
@@ -7,7 +8,10 @@ export default defineConfig({
     emptyOutDir: true,
     manifest: true,
     rollupOptions: {
-      input: '/src/js/app.js'
+      input: {
+        index: resolve(__dirname, 'index.html'),
+        app: resolve(__dirname, 'src/js/app.js')
+      }
     }
   }
 });
