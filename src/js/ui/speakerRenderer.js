@@ -7,7 +7,6 @@ let floatingImageQuickY = null;
 let floatingImageRequestId = 0;
 let resetSpeakerProfileState = null;
 let resetSpeakerProfileDelayCall = null;
-const preloadedSpeakerImages = new Set();
 
 export function resetSpeakerProfile({ delay = 0 } = {}) {
     resetSpeakerProfileDelayCall?.kill();
@@ -505,22 +504,6 @@ function hideFloatingImage(image) {
         ease: 'power2.out',
         overwrite: 'auto',
     });
-}
-
-function preloadSpeakerImages(speakers) {
-    speakers
-        .map((speaker) => getImagePath(speaker.image))
-        .filter(Boolean)
-        .forEach((imagePath) => {
-            if (preloadedSpeakerImages.has(imagePath)) {
-                return;
-            }
-
-            preloadedSpeakerImages.add(imagePath);
-            const image = new Image();
-            image.decoding = 'async';
-            image.src = imagePath;
-        });
 }
 
 function setActiveCard(cards, activeCard) {
